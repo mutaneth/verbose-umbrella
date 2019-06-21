@@ -6,7 +6,7 @@
 /*   By: ddratini <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 20:00:02 by ddratini          #+#    #+#             */
-/*   Updated: 2019/06/21 20:00:05 by ddratini         ###   ########.fr       */
+/*   Updated: 2019/06/21 20:04:20 by ddratini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int main(int ac, char **av)
 //	if (ac == 2)
 int	fd = open (av[1], O_RDONLY);
 	printf("fd=%d-\n", fd);
-	/* printf("figure=\n%s",*/ r = mega_fgr_val(fd);//);//validate(fd);
+	/* printf("figure=\n%s",*/ r = mega_fgr_val(fd);
 //	printf("r=\n%s", r->fgr_line);
 	close(fd);
 	return (0);
-}
+}§
