@@ -105,6 +105,8 @@ t_fgr			*after_line(int fd)/* \n between figures && no symbols after \0 EOF && E
 			break ;
 		if (buf[0] != '\n')
 			return (NULL);//free 
+		if (!(ft_fgr_line(line)))	//save ok_figr then if \n -> check next fig existence
+			return(NULL); //free  ; error exit
 	}
 	printf("buf[0] =%c\n", buf[0]);
 	if ( /* buf[0] && */buf[0] == '\0' && read(fd, buf, 1) == 1)
