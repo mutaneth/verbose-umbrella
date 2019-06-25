@@ -6,9 +6,10 @@
 /*   By: hfalmer <hfalmer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 19:49:57 by hfalmer           #+#    #+#             */
-/*   Updated: 2019/05/23 03:56:23 by hfalmer          ###   ########.fr       */
+/*   Updated: 2019/06/25 18:16:28 by hfalmer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "fillit.h"
 #include "../libft/libft.h"
 /*  int			check_input_count(char *blc) //check for wrong chars and extra #
@@ -234,17 +235,16 @@ int		ft_fgr_int(char *fgrl)/* takes fgrl and turns it to int using bits logic af
 int			int_check(t_fgr *fgr)
 {
 	t_fgr	*tmp;
+	int		f;
 
 	tmp = fgr;
-	while (tmp->next)// 1 elem?
+	while (tmp)// 1 elem?
 	{
-		if (!(tmp->fgr_int == 4369 || tmp->fgr_int == 15 || tmp->fgr_int == 547 || 
-		tmp->fgr_int == 29 || tmp->fgr_int == 785 || tmp->fgr_int == 23 || 
-		tmp->fgr_int == 275 || tmp->fgr_int == 71 || tmp->fgr_int == 401 || 
-		tmp->fgr_int == 113 || tmp->fgr_int == 51 || tmp->fgr_int == 99 || 
-		tmp->fgr_int == 153 || tmp->fgr_int == 57 || tmp->fgr_int == 305 || 
-		tmp->fgr_int == 39 || tmp->fgr_int == 281 || tmp->fgr_int == 27 || 
-		tmp->fgr_int == 561))
+		f = tmp->fgr_int;
+		if ((f != 4369) && (f != 15) && (f != 547) && (f != 29) 
+		&& (f != 785) && (f != 23) && (f != 275) && (f != 71) && (f != 401) 
+		&& (f != 113) && (f != 51) && (f != 99) && (f != 153) && (f != 57) 
+		&& (f != 305) && (f != 39) && (f != 281) && (f != 27) && (f != 561))
 			 return (0);
 		tmp = tmp->next;
 	}
@@ -255,9 +255,8 @@ t_fgr			*mega_fgr_val(int fd)
 {
 	t_fgr *ok_fgr;
 	t_fgr *tmp;
-	char *line;
+//	char *line; //unused variabel
 
-printf("wha\n");
 	ok_fgr = NULL;
 	if (!(ok_fgr = after_line(fd)))
 	{
@@ -267,16 +266,42 @@ printf("wha\n");
  	tmp = ok_fgr;
 	while (tmp)
 	{
-		if (!(fgrl_xtra_01(tmp->fgr_line)))
+		if (!(fgrl_xtra_01((tmp->fgr_line))))
 			return (NULL);// free
 		printf("xtra:%s\n", tmp->fgr_line);
 		tmp->fgr_int = ft_fgr_int(tmp->fgr_line);
-		printf("int:%d\n", tmp->fgr_int);
+		printf("int:%d ", tmp->fgr_int);
 		tmp = tmp->next;
 	}
 	tmp = ok_fgr;
+//	printf("i_ch=%d", int_check(tmp));	////////////
 	if (!(int_check(tmp)))
+	{
+		printf("rr\n");
 		return (NULL);// free
-	printf("ok");
+	}
 	return (ok_fgr);
+}
+
+void	free_fgr(t_fgr **fgr)
+{
+	t_fgr *tmp;
+	t_fgr *t;
+
+	if (fgr)
+	{
+		tmp = *fgr;
+		while (tmp)
+		{
+			if (tmp->fgr_line)
+				free((void*)tmp->fgr_line);
+			t = tmp;
+			tmp = tmp->next;
+			t->next = NULL;
+			free(t);
+		}
+		free(tmp);
+		free(*fgr);
+		free(fgr);
+	}
 }

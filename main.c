@@ -1,84 +1,46 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ddratini <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/21 20:00:02 by ddratini          #+#    #+#             */
-/*   Updated: 2019/06/21 20:04:20 by ddratini         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <stdio.h>
 #include <fcntl.h>
 #include "fillit.h"
 #include "../libft/libft.h"
-
-int main(int ac, char **av)
-{
-	t_fgr *r;
-//	int fd;
-//	if (ac == 2)
-int	fd = open (av[1], O_RDONLY);
-	printf("fd=%d-\n", fd);
-	/* printf("figure=\n%s",*/ r = mega_fgr_val(fd);
-//	printf("r=\n%s", r->fgr_line);
-	close(fd);
-	return (0);
-}
-/* from VALI */
+#include <math.h>//
+	/*			printf("k=%c\n", map[j + (k % 4)][i + (k / 4)]);*/
 int main(int ac, char **av)// huge main
 {
 	t_fgr *r;
-//	int fd;
+	char **map;
+	int i;
+	int c;
+	int s;
 	if (ac == 2)
 	{
 		int	fd = open (av[1], O_RDONLY);
-		printf("fd=%d\n", fd);
+		printf("fd=%d ", fd);
 		if (!(check_n(fd)))
 		{
-			printf("err\n");
+			write(1, "err\n", 4);
 			return (0);
 		}
 		close (fd);
 		fd = open (av[1], O_RDONLY);
-	/* printf("figure=\n%s",*/ r = mega_fgr_val(fd);//);//validate(fd);
-//	printf("r=\n%s", r->fgr_line);
-	close(fd);
-	}
-	else
-		printf("fillit tetro!\n");
-//		printf("error\n");	
-	return (0);
-}
-/*
-int main(int ac, char **av)// huge main
-{
-	t_fgr *r;
-//	int fd;
-	if (ac == 2)
-	{
-		int	fd = open (av[1], O_RDONLY);
-		printf("fd=%d-\n", fd);
-		if (!(check_n(fd)))
-			return();
-		close(fd);
-		fd = open(av[1], O_RDONLY);
-		mega_fgr_val(fd);
+		r = mega_fgr_val(fd);
+		printf("ok\n");
+		map = mapc(r);
+		i = -1;
+	//	while (map[++i])
+	//		printf("%s\n", map[i]);
+		c = fgr_count(r);
+		s = sqrt(c * 4);
+		i = putin(map, r, s);
+		i = -1;
+		while (map[++i])
+			printf("map[i]%s i=%d\n", map[i], i);
 		close(fd);
 	}
 	else
-	{
-		printf("argc");
-	}
-	
-	/ *  printf("figure=\n%s",* / r = mega_fgr_val(fd);//);//validate(fd);
-//	printf("r=\n%s", r->fgr_line);
-	close(fd);
+		write(1, "fillit tetro!\n", 14);
 	return (0);
 }
-*/
+
 /* int main (void)
 {
 	t_fgr *fgr;
