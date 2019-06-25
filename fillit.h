@@ -13,7 +13,7 @@
 #ifndef FILLIT_H
 # define FILLIT_H
 #include <stdio.h>/////
-//# include "gnl/get_next_line.h"
+#include "../fillit/libft/libft.h"
 
 typedef struct		s_fgr
 {
@@ -32,6 +32,11 @@ int					fgrl_xtra_01(char *fgr_line);/* checks if this line is valid and change 
 int					ft_fgr_int(char *fgrl);/* takes fgrl and turns it to int using bits logic after fgrl_val*/
 int					int_check(t_fgr *fgr);
 t_fgr				*mega_fgr_val(int fd);
+int					putin(char **map, t_fgr *fgr, int s);/* puts 1 fgr in map */
+int					fgr_count(t_fgr *fgrlst);/* just count fgrs*/
+char				**mapc(t_fgr *fgrlst, int flg);/* creates the minimal start map*/
+void				map_free(char **map, t_fgr *fgrlst);// huita
+char				**map_increaser(t_fgr *fgrlst, char **map, int flg);// flg = iterrator
 
 
 #endif

@@ -12,6 +12,15 @@
 
 #include "fillit.h"
 
+/*int			ft_sqrt(double dcf)
+{
+	int i;
+
+	i = 0;
+	while (i )
+	return ();
+}*/
+
 int		fgr_count(t_fgr *fgrlst)/* just count fgrs*/
 {
 	int		c;
@@ -29,7 +38,7 @@ int		fgr_count(t_fgr *fgrlst)/* just count fgrs*/
 	return (c);
 }
 
-char	**mapc(t_fgr *fgrlst, int flg)/* creates the minimal start map*/
+char	**mapc(t_fgr *fgrlst)/* creates the minimal start map*/
 {
 	int		c;
 	int		s;
@@ -38,43 +47,43 @@ char	**mapc(t_fgr *fgrlst, int flg)/* creates the minimal start map*/
 
 	i = -1;
 	c = fgr_count(fgrlst);
-	s = sqrt(c * 4) + flg;// 0 or 1
-	if (s < 4)
-		s = 4;
-	if (!(*map = (char**)malloc(s * sizeof(char))))
+	s = sqrt(c * 4);
+	printf("s=%d\n",s);
+	if (s < 2)
+		s = 2;
+	if (!(map = (char**)malloc(s * sizeof(char *)  + 1 )))
 		return (NULL);
 	while (++i < s)
 	{
-		if (!(map = (char*)malloc(s * sizeof(char))))
+		if (!(map[i] = (char*)malloc(s * sizeof(char) + 1)))
 			return (NULL);
 		ft_memset(map[i], '.', s);
+		map[i][s] = '\0';
+	//	printf("%s\n", map[i]);
 	}
+	map[i] = 0;//!!!!!!!!!
+	i = -1;
+	i = -1;
+//	while (map[++i])
+//			printf("%s\n", map[i]);
+//	while (++i < s)
+
 	return (map);
 }
 
-void	map_free(char **map, t_fgr *fgrlst)// huita
+/* void	map_free(char **map, t_fgr *fgrlst)// huita
 {
 	int i;
 
 	i = -1;
 	if (**map)
 	{
-		while (++i < (4 * fgr_count(fgrlst)))// ??
+		while (++i < (4 * fgr_count(fgrlst)))
 			free(map[i]);
 		free(*map);
 		free(**map);
 	}
-}
-
-char		**map_increaser(t_fgr *fgrlst, char **map, int flg)// flg = iterrator
-{
-	char	**big_map;
-
-	map_free(map, fgrlst);
-	big_map = mapc(fgrlst, flg);
-	return (big_map);
-}
-
+} */
 
 /* char	**mapc(int s)
 {
@@ -92,7 +101,7 @@ char		**map_increaser(t_fgr *fgrlst, char **map, int flg)// flg = iterrator
 	return (map);
 }
 
-char	**map_creator(t_fgr *fgrlst)/* variant s kuchei malloc
+char	**map_creator(t_fgr *fgrlst) variant s kuchei malloc
 {
 	char	**map;
 

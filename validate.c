@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "fillit.h"
-#include "../libft/libft.h"
+
 /*  int			check_input_count(char *blc) //check for wrong chars and extra #
 {
 	int i;
