@@ -1,0 +1,1 @@
+ gcc main.c validate.c put_in_25.c map_creator.c ../fillit/libft/libft.a -o 25

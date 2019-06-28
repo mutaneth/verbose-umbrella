@@ -1,0 +1,2 @@
+echo gcc -g -Wall -Wextra -Werror main.c 1validate.c put_in_256.c map_creator.c ../fillit/libft/libft.a -o 625fillit
+gcc -g -Wall -Wextra -Werror main.c 1validate.c put_in_25.c map_creator.c ../fillit/libft/libft.a -o 625fillit

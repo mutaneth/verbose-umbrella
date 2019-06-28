@@ -5,14 +5,13 @@ HEADER = ./libft
 CFLAG = -Wall -Wextra -Werror
 
 all:
-	gcc $(CFLAG) $(SRC)  -I$(HEADER) -I./libft  ./libft/libft.a -o $(NAME)
+	gcc -g $(CFLAG) $(SRC)  -I$(HEADER) -I./libft  ..fillit//libft/libft.a -o $(NAME)
 other:
-	gcc $(CFLAG) $(SRC_G) -I$(HEADER) -I./libft  ./libft/libft.a -o $(NAME)
+	gcc $(CFLAG) $(SRC_G) -I$(HEADER) -I./libft  ../libft/libft.a -o $(NAME)
 clean:
 	rm $(NAME)
 
 fclean: clean
 	ls
-re:
-	fclean
+re: fclean
 	all

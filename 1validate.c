@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "fillit.h"
-
 /*  int			check_input_count(char *blc) //check for wrong chars and extra #
 {
 	int i;
@@ -223,9 +222,10 @@ int		ft_fgr_int(char *fgrl)/* takes fgrl and turns it to int using bits logic af
 	i = -1;
 	while (++i < 16)
 	{
-		if (frst == -1 && fgrl[i] - '0' == 1)
-			frst = i;
-		else
+		if (frst == -1)
+			if (fgrl[i] - '0' == 1)
+				frst = i;
+		if (frst != -1)
 			fgr_int |= (fgrl[i] - '0') << (i - frst);
 	}
 	return (fgr_int);

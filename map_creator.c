@@ -17,7 +17,10 @@
 	int i;
 
 	i = 0;
-	while (i )
+	while (i * i < dcf)
+	{
+		++i;
+	}
 	return ();
 }*/
 
@@ -38,7 +41,7 @@ int		fgr_count(t_fgr *fgrlst)/* just count fgrs*/
 	return (c);
 }
 
-char	**mapc(t_fgr *fgrlst)/* creates the minimal start map*/
+char	**mapc(t_fgr *fgrlst, int flg)/* creates the minimal start map*/
 {
 	int		c;
 	int		s;
@@ -49,8 +52,10 @@ char	**mapc(t_fgr *fgrlst)/* creates the minimal start map*/
 	c = fgr_count(fgrlst);
 	s = sqrt(c * 4);
 	printf("s=%d\n",s);
+	flg = flg - 1 + 1;//
 	if (s < 2)
 		s = 2;
+		s = 4;
 	if (!(map = (char**)malloc(s * sizeof(char *)  + 1 )))
 		return (NULL);
 	while (++i < s)
