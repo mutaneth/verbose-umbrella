@@ -12,8 +12,10 @@
 
 #ifndef FILLIT_H
 # define FILLIT_H
+#include <fcntl.h>
 #include <stdio.h>/////
 #include "../fillit/libft/libft.h"
+#include <math.h>
 
 typedef struct		s_fgr
 {
@@ -37,6 +39,8 @@ int					fgr_count(t_fgr *fgrlst);/* just count fgrs*/
 char				**mapc(t_fgr *fgrlst, int flg);/* creates the minimal start map*/
 void				map_free(char **map, t_fgr *fgrlst);// huita
 char				**map_increaser(t_fgr *fgrlst, char **map, int flg);// flg = iterrator
+int     			check_n(int fd);
+int 		place(char **map, t_fgr *fgr, int s);//(int f);
 
-
+int			four_check(char **map, t_fgr *fgr, int x, int y, int s);
 #endif

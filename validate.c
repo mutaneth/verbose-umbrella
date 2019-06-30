@@ -117,6 +117,8 @@ t_fgr			*fgr_new(char fgr_chr, char *line)/* creates new node in t_fgr. chr star
 			break ;
 		if (buf[0] != '\n')
 			return (NULL);//free 
+		if (!(ft_fgr_line(line)))	//save ok_figr then if \n -> check next fig existence
+			return(NULL); //free  ; error exit
 	}
 	printf("buf[0] =%c\n", buf[0]);
 	if ( / * buf[0] && * /buf[0] == '\0' && read(fd, buf, 1) == 1)
@@ -278,6 +280,7 @@ t_fgr			*mega_fgr_val(int fd)
 	{
 		printf("rr-intcheck\n");
 		return (NULL);// free
+<<<<<<< HEAD
 	}
 	return (ok_fgr);
 }
@@ -304,3 +307,7 @@ void	free_fgr(t_fgr **fgr)
 		free(fgr);
 	}
 }
+=======
+*/	return (ok_fgr);
+}
+>>>>>>> 44f78d8f8752475046c30e503fed440302767e9a
