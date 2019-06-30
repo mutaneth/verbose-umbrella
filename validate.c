@@ -280,7 +280,6 @@ t_fgr			*mega_fgr_val(int fd)
 	{
 		printf("rr-intcheck\n");
 		return (NULL);// free
-<<<<<<< HEAD
 	}
 	return (ok_fgr);
 }
@@ -306,8 +305,6 @@ void	free_fgr(t_fgr **fgr)
 		free(*fgr);
 		free(fgr);
 	}
+}//* /	return (ok_fgr);
 }
-=======
-*/	return (ok_fgr);
-}
->>>>>>> 44f78d8f8752475046c30e503fed440302767e9a
+//>>>>>>> 44f78d8f8752475046c30e503fed440302767e9a

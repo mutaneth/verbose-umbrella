@@ -1,0 +1,2 @@
+ echo gcc main.c validate.c put_in.c map_creator.c ../fillit/libft/libft.a
+ gcc main.c validate.c put_in.c map_creator.c ../fillit/libft/libft.a

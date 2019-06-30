@@ -106,7 +106,7 @@ int			putin(char **map, t_fgr *fgr, int s)
 	y = -1;
 	x = 0;
 	printf("625!");
-	while ((map[y] && map[++y][x]))
+	while ((/* map[y] &&*/ map[++y][x]))
 	{
 		x = 0;
 		while (map[y][x] )//&& map[y][x] == '.')
