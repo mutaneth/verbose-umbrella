@@ -113,7 +113,8 @@ int			putin(char **map, t_fgr *fgr, int s)
 		{
 			if (map[y][x] == '.')
 			{
-			if (((fgr->fgr_int >> k) & 1) == 1 && ((y + k % 4) < (s - 1)) && ((x + k / 4) < (s - 1)) && map[x + k % 4][x + k / 4] == '.')//
+				printf("k=%d? ", k);
+			if (((fgr->fgr_int >> k) & 1) == 1 && ((y + k / 4) < (s - 1)) && ((x + k % 4) < (s - 1)) && map[y + k / 4][x + k % 4] == '.')//
 				++f;
 			if (f == 4)
 				if ((four_check(map, fgr, x, y, s)))
@@ -133,8 +134,9 @@ int			putin(char **map, t_fgr *fgr, int s)
 				}
 		//???			return (1);
 			}
+			++x;
 		}
-		++x;
+	//	++x;
 	}
 //	}
 	return (0);

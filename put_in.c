@@ -84,16 +84,18 @@ int		putin(char **map, t_fgr *fgr, int s)/* puts 1 fgr in map */
 				while (++k < 16)
 				{
 			//		f = 0;
-					if (((fgr->fgr_int << k) & 1) == 1)//if ((fgr->fgr_int & (1 << k)) != 0)///////////
+					if (((fgr->fgr_int << k) & 1) == 1 && y + k /4 < s && x + k%4 < s
+						&& map[y + k/4][x + k%4] == '.')//if ((fgr->fgr_int & (1 << k)) != 0)///////////
+						++f;
 ///////////			map[j][i] = fgr->fgr_chr;
 					printf(" fi=%d ", (fgr->fgr_int << k) & 1);
-					if (map[j + k % 4][i + k / 4] == '.')//not s 4
+					if (map[j + k / 4][i + k % 4] == '.')//not s 4
 							++f;
 					if (f == 4)
 					{
 						k = -1;//new! fri 28.6
 						while (--f != 0 && ++k < 16)//new
-							map[j + k / 4][i + k % 4] = fgr->fgr_chr;//map[j + k % s][i + k / s] = fgr->fgr_chr;
+/*no check for k numb */	map[j + k / 4][i + k % 4] = fgr->fgr_chr;//map[j + k % s][i + k / s] = fgr->fgr_chr;
 			//			printf("map[j]=%s\n", map[j]);
 						return (4);//return(f);	
 					//	return (1);

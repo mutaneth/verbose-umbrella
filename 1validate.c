@@ -46,7 +46,7 @@ char			*ft_fgr_line(int fd)// malloc??
 			return (NULL);
 		}
 		if (ft_strlen(tmp) == 4)
-			fgrl = ft_strrejoin(tmp, fgrl, -1);
+			fgrl = /*ft_strrejoin(fgrl, tmp, 1);*/ft_strrejoin(tmp, fgrl, -1);
 		else
 		{
 			if (tmp)
