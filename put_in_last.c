@@ -20,8 +20,8 @@ int			putin(char **map, t_fgr *fgr, int s)
 	int k;
 
 	x = 0;
-	y = -1;
-//	k = -1;
+	y = -1; k = 0;
+	printf(" ik_=%d ", (fgr->fgr_int >> k) & 1u);
 	while (map[++y]/* [x]*/)
 	{
 		printf(" newln---");
@@ -35,8 +35,18 @@ int			putin(char **map, t_fgr *fgr, int s)
 				while (++k <= 15)
 				{
 			//		printf(" k_=%d ", ((fgr->fgr_int) & (1 << k)) == 1);
-				//	printf(" k_=%d ", (fgr->fgr_int >> k) & 1);
+	//				printf(" ik_=%d ", (fgr->fgr_int >> k) & 1u);
+	//				printf(" ik_=%d ", fgr->fgr_int & (1u << k));
 				//	printf(" bit=%d ", (fgr->fgr_int >> k) & 1);
+				//	ft_print_bits(fgr->fgr_int);
+	//	 printf("\n -"); //ft_print_bits(fgr->fgr_int >>8); printf("-");
+		//			if (k < 8) ft_print_bits(fgr->fgr_int);
+		//			else if (k < 16)
+		//				ft_print_bits((fgr->fgr_int >> 8));// (k - 7));
+		//			else if (k == 16)
+		//				printf("?        ");
+					
+				//	ft_print_bits();
 					if (fgr->fgr_int & (1 << k))/* ((fgr->fgr_int >> k) & 1)*/
 						if (( y + k /4) < s)
 							if ((x + k%4) < s)
