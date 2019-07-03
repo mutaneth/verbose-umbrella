@@ -151,7 +151,7 @@ t_fgr		*after_line(int fd)/* just check \n and \0 yuhoo and fill the fgr*/
 {
 	char	*line;
 	int		i;
-	char	buf[2];
+	char	buf[] = "-";//buf[2];
 	int		check;
 	t_fgr	*fgr;
 
@@ -222,10 +222,9 @@ int		ft_fgr_int(char *fgrl)/* takes fgrl and turns it to int using bits logic af
 	i = -1;
 	while (++i < 16)
 	{
-		if (frst == -1)
-			if (fgrl[i] - '0' == 1)
-				frst = i;
-		if (frst != -1)
+		if (frst == -1 && fgrl[i] - '0' == 1)
+			frst = i;
+		else
 			fgr_int |= (fgrl[i] - '0') << (i - frst);
 	}
 	return (fgr_int);
