@@ -46,7 +46,7 @@ char			*ft_fgr_line(int fd)// malloc??
 			return (NULL);
 		}
 		if (ft_strlen(tmp) == 4)
-			fgrl = /*ft_strrejoin(fgrl, tmp, 1);*/ft_strrejoin(tmp, fgrl, -1);
+			fgrl = ft_strrejoin(fgrl, tmp, 1);//ft_strrejoin(tmp, fgrl, -1);
 		else
 		{
 			if (tmp)
@@ -151,7 +151,7 @@ t_fgr		*after_line(int fd)/* just check \n and \0 yuhoo and fill the fgr*/
 {
 	char	*line;
 	int		i;
-	char	buf[] = "-";//buf[2];
+	char	buf[2];//buf[] = "-";//buf[2];
 	int		check;
 	t_fgr	*fgr;
 
@@ -224,8 +224,10 @@ int		ft_fgr_int(char *fgrl)/* takes fgrl and turns it to int using bits logic af
 	{
 		if (frst == -1 && fgrl[i] - '0' == 1)
 			frst = i;
-		else
+		if (frst != -1)
 			fgr_int |= (fgrl[i] - '0') << (i - frst);
+	//	ft_print_bits(fgr_int);
+		printf("f_i=%d ", fgr_int);
 	}
 	return (fgr_int);
 }
