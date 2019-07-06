@@ -44,23 +44,29 @@ int 		read_max(int fd)
 
 int			st(char **av/*int fd */)//return fd if ok st
 {
-	int	fd = open(av[1], O_RDONLY);
+	int	fd;
+
+	fd = open(av[1], O_RDONLY);
 	printf("fd=%d ", fd);
 	if (read_max(fd) == 0)
-	return (0);
-	close(fd);	/*added: check max read bytes */
+	{
+		printf(" readmax>26||-1 ");
+		close(fd);	/*added: check max read bytes */
+		return (0);//need free?? exit??
+	}
 	fd = open(av[1], O_RDONLY);
 	if (!(check_n(fd)))
 	{
+		printf(" sl_n-wrong ");
 		ft_err();
+		close(fd);
 		return (0);
 	}
-	close(fd);
 	fd = open(av[1], O_RDONLY);
 	return (fd);
 }
 
-void		build_pro(t_fgr *r, int fd)
+void		build_f(t_fgr *r, int fd)
 {
 	int c;
 	int s;
@@ -90,25 +96,22 @@ void		build_pro(t_fgr *r, int fd)
 
 int			main(int ac, char **av)// huge main
 {
-	t_fgr *r;
-//	char **map;
-//	int i;
-	int fd;
+	t_fgr 	*r;
+	int 	fd;
 
 	if (ac == 2)
 	{
 		fd = st(av);
-		r = mega_fgr_val(fd);
+		if ((r = mega_fgr_val(fd)) == NULL)
 		/*st();*/ //r = mega_fgr_val(st(av));//r = mega_fgr_val(fd);
-		if (r == NULL)
 		{
-			ft_err();
+			ft_err();//close (fd); ? //fre??ext
 			return (0);//+ errror message
 		}
 		else
 		{
 			printf("mgfgrvl-ok ");
-			build_pro(r, fd);
+			build_f(r, fd);
 		}
 	}
 	else
