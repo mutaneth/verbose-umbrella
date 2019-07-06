@@ -6,74 +6,103 @@
 /*   By: ddratini <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 16:33:24 by ddratini          #+#    #+#             */
-/*   Updated: 2019/06/28 16:38:50 by ddratini         ###   ########.fr       */
+/*   Updated: 2019/07/06 21:13:55 by ddratini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-	/*			printf("k=%c\n", map[j + (k % 4)][i + (k / 4)]);*/
+/*	printf("k=%c\n", map[j + (k % 4)][i + (k / 4)]);*/
+static void			ft_err()
+{
+	write(1, "error\n", 6);
+}
+
+static void			ft_use()
+{
+	write(1, "usage: ./fillit input_file\n", 27);//277
+}
+
 int 		read_max(int fd)
 {
 	int ret;
-	char buf[546];
+	char buf[546];//???? \0?
 
 	if ((ret = read(fd, buf, 546)) == 546 || ret == -1)
-		//error message
+	{
+		ft_err();//error message
 		return (0);
+	}
 	else
 	{
 		//ok actually write(1, "error msg\n", 10);//error message
 //		close(fd);
+		ft_err();
 		return (1);
 	}
 }
 
-int main(int ac, char **av)// huge main
+int			st(/*int fd */)//return fd if ok st
+{
+	int	fd = open(av[1], O_RDONLY);
+	printf("fd=%d ", fd);
+	if (read_max(fd) == 0)
+	return (0);
+	close(fd);	/*added: check max read bytes */
+	fd = open(av[1], O_RDONLY);
+	if (!(check_n(fd)))
+	{
+		ft_err();
+		return (0);
+	}
+	close(fd);
+	fd = open(av[1], O_RDONLY);
+	return (fd);
+}
+
+void		build_pro()
+{
+	int c;
+	int s;
+
+	c = fgr_count(r);
+	s = sqrt(c * 4);//i guess s must be sqrt(all #'s * 4)// 2 figurs -> s = 5-6//c*4*4?
+	printf(" m_c=%d ",c);
+	printf(" m_s=%d ", s);
+	map = mapc(r, s);
+//	i=0;
+	i = putin(map, r, s);
+	if (i == 4)
+	{
+		printf("i=4");
+//			place(map, r, s);
+	}
+	else
+		printf(" iif!=4! ");
+	i = -1;
+	printf("\n");
+	while (map[++i])
+		printf("map[i]%s i=%d\n", map[i], i);
+	close(fd);
+}
+
+int			main(int ac, char **av)// huge main
 {
 	t_fgr *r;
 	char **map;
 	int i;
-	int c;
-	int s;
 
 	if (ac == 2)
 	{
-		int	fd = open(av[1], O_RDONLY);
-		printf("fd=%d ", fd);
-		if (read_max(fd) == 0)
-			return (0);
-		close(fd);	/*added: check max read bytes */
-		fd = open(av[1], O_RDONLY);
-		if (!(check_n(fd)))
-		{
-			write(1, "error\n", 6);
-			return (0);
-		}
-		close(fd);
-		fd = open(av[1], O_RDONLY);
-		r = mega_fgr_val(fd);
+		/*st();*/r = mega_fgr_val(st());//r = mega_fgr_val(fd);
 		if (r == NULL)
-			return (0);//+ errror message
-		printf("mgfgrvl-ok\n");
-		c = fgr_count(r);
-		s = sqrt(c * 4 * 4);//i guess s must be sqrt(all #'s * 4)// 2 figurs -> s = 5-6
-		printf(" s=%d ", s);
-		map = mapc(r, s);
-	//	i=0;
-		i = putin(map, r, s);
-		if (i == 4)
 		{
-			printf("i=4");
-//			place(map, r, s);
+			ft_err();
+			return (0);//+ errror message
 		}
+		printf("mgfgrvl-ok ");
 		else
-			printf(" iif!=4! ");
-		i = -1;
-		printf("\n");
-		while (map[++i])
-			printf("map[i]%s i=%d\n", map[i], i);
-		close(fd);
+			build_pro();
 	}
 	else
 		write(1, "./fillit tetro_file!\n", 21);//right use msg

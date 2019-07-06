@@ -12,10 +12,16 @@
 
 #include "fillit.h"
 
-/* int		rcrs(char **min_map, t_fgr *fgrlst)//recursion /
+int			rcrs(char **min_map, t_fgr *fgrlst)//recursion /
 {
+//	if (putin() != 1)
+	{
+		printf("not placed");
+	//	mapc();increase map
+	}
 	return(99);
-}*/
+}
+
 /*void 		alg()
 {
 
@@ -60,51 +66,47 @@
 
 int		putin(char **map, t_fgr *fgr, int s)/* puts 1 fgr in map */
 {
-	int	i;
-	int	j;
-	int	k;
+	int x;
+	int y;
 	int f;
+	int k;
 
-	i = 0;
-	j = -1;
-//	i = -1;
-//	j = 0;
-	s = s + 0;
-	write(1, "KKKKKKKKKK", 999);
-	printf("SDASSDADQWQWQEEWRWER");
-	while (map[++j][i])
+	y = -1; 	x = 0;/*??*/ k = 0;k=2;
+	printf("knumofbit=%d ik_=%d ", k,(fgr->fgr_int >> 2) & 1u);//this shows 1 or no in the >>place
+	printf("bitsval=%d ", (fgr->fgr_int & (1u << 2)));//and this one - the value externally
+	while (map[++y]/* [x]*/)
 	{
-		i = 0;
-		while (map[j][i])	//while (map[j][i] && map[j][i] == '.') //those are diff things we have to look for . evrywhere
+		printf(" newln---");
+		x = -1;
+		while (map[y][++x])
 		{
-			if (map[j][i] == '.')
+			if (map[y][x] == '.')//when found space check in cucle fitting of the fgr
 			{
 				k = -1;
 				f = 0;
-				while (++k < 16)
+				while (++k <= 12)
 				{
-			//		f = 0;
-					if (((fgr->fgr_int << k) & 1) == 1 && y + k /4 < s && x + k%4 < s
-						&& map[y + k/4][x + k%4] == '.')//if ((fgr->fgr_int & (1 << k)) != 0)///////////
-						++f;
-///////////			map[j][i] = fgr->fgr_chr;
-					printf(" fi=%d ", (fgr->fgr_int << k) & 1);
-					if (map[j + k / 4][i + k % 4] == '.')//not s 4
-							++f;
-					if (f == 4)
-					{
-						k = -1;//new! fri 28.6
-						while (--f != 0 && ++k < 16)//new
-/*no check for k numb */	map[j + k / 4][i + k % 4] = fgr->fgr_chr;//map[j + k % s][i + k / s] = fgr->fgr_chr;
-			//			printf("map[j]=%s\n", map[j]);
-						return (4);//return(f);	
-					//	return (1);
+					if (fgr->fgr_int & (1 << k))/* ((fgr->fgr_int >> k) & 1)*/
+						if (( y + k /4) < s)
+							if ((x + k%4) < s)
+								if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
+								{
+									++f;
+							//	if (f == 4)
+								}
+				}
+				if (f == 4)
+				{
+					k = -1;
+					while (++k <= 12)
+					{	if (fgr->fgr_int & (1 << k))//if (((fgr->fgr_int << k) & 1))//&& y + k /4 < s && x + k%4 < s
+						//	&& map[y + k/4][x + k%4] == '.')
+							map[y + k/4][x+ k%4] = fgr->fgr_chr;
 					}
+					return (1);
 				}
 			}
-			++i;
 		}
 	}
-	printf("\n");
 	return (0);
-}//fills up to 2 cells
+}

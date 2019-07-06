@@ -6,7 +6,7 @@
 /*   By: ddratini <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 21:32:18 by ddratini          #+#    #+#             */
-/*   Updated: 2019/07/06 21:07:33 by ddratini         ###   ########.fr       */
+/*   Updated: 2019/07/06 21:13:13 by ddratini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int			putin(char **map, t_fgr *fgr, int s)
 	x = 0;
 	y = -1; k = 0;k=2;
 	printf("knumofbit=%d ik_=%d ", k,(fgr->fgr_int >> 2) & 1u);//this shows 1 or no in the >>place
-	printf("bitsval=%d ", (fgr->fgr_int & (1u << 2)));
+	printf("bitsval=%d ", (fgr->fgr_int & (1u << 2)));//and this one - the value externally
 	while (map[++y]/* [x]*/)
 	{
 		printf(" newln---");
@@ -51,11 +51,11 @@ int			putin(char **map, t_fgr *fgr, int s)
 					if (fgr->fgr_int & (1 << k))/* ((fgr->fgr_int >> k) & 1)*/
 						if (( y + k /4) < s)
 							if ((x + k%4) < s)
-							if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
-					{
-						++f;
-					//	if (f == 4)
-					} 
+								if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
+								{
+									++f;
+							//	if (f == 4)
+								}
 			//		ft_print_bits((fgr->fgr_int & (1 << k)));
 //					ft_print_bits((fgr->fgr_int >> k) & 1);//this was important 
 //					printf("\n   ");

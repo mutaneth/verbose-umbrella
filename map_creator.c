@@ -51,7 +51,8 @@ char	**mapc(t_fgr *fgrlst, int flg)/* creates the minimal start map*/
 	i = -1;
 	c = fgr_count(fgrlst);
 	s = sqrt(c * 4);
-	printf("s=%d\n",s);
+	printf(" C=%d ", c);
+	printf("S=%d\n",s);
 	flg = flg - 1 + 1;//
 	if (s < 2)
 		s = 2;
