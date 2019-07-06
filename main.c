@@ -42,7 +42,7 @@ int 		read_max(int fd)
 	}
 }
 
-int			st(/*int fd */)//return fd if ok st
+int			st(char **av/*int fd */)//return fd if ok st
 {
 	int	fd = open(av[1], O_RDONLY);
 	printf("fd=%d ", fd);
@@ -60,10 +60,12 @@ int			st(/*int fd */)//return fd if ok st
 	return (fd);
 }
 
-void		build_pro()
+void		build_pro(t_fgr *r, int fd)
 {
 	int c;
 	int s;
+	int i;
+	char **map;
 
 	c = fgr_count(r);
 	s = sqrt(c * 4);//i guess s must be sqrt(all #'s * 4)// 2 figurs -> s = 5-6//c*4*4?
@@ -89,23 +91,29 @@ void		build_pro()
 int			main(int ac, char **av)// huge main
 {
 	t_fgr *r;
-	char **map;
-	int i;
+//	char **map;
+//	int i;
+	int fd;
 
 	if (ac == 2)
 	{
-		/*st();*/r = mega_fgr_val(st());//r = mega_fgr_val(fd);
+		fd = st(av);
+		r = mega_fgr_val(fd);
+		/*st();*/ //r = mega_fgr_val(st(av));//r = mega_fgr_val(fd);
 		if (r == NULL)
 		{
 			ft_err();
 			return (0);//+ errror message
 		}
-		printf("mgfgrvl-ok ");
 		else
-			build_pro();
+		{
+			printf("mgfgrvl-ok ");
+			build_pro(r, fd);
+		}
 	}
 	else
 		write(1, "./fillit tetro_file!\n", 21);//right use msg
+		ft_use();
 	return (0);
 }
 
