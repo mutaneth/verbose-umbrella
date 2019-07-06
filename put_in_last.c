@@ -6,7 +6,7 @@
 /*   By: ddratini <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 21:32:18 by ddratini          #+#    #+#             */
-/*   Updated: 2019/06/30 21:32:20 by ddratini         ###   ########.fr       */
+/*   Updated: 2019/07/06 21:07:33 by ddratini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ int			putin(char **map, t_fgr *fgr, int s)
 	int k;
 
 	x = 0;
-	y = -1; k = 0;
-	printf(" ik_=%d ", (fgr->fgr_int >> k) & 1u);
+	y = -1; k = 0;k=2;
+	printf("knumofbit=%d ik_=%d ", k,(fgr->fgr_int >> 2) & 1u);//this shows 1 or no in the >>place
+	printf("bitsval=%d ", (fgr->fgr_int & (1u << 2)));
 	while (map[++y]/* [x]*/)
 	{
 		printf(" newln---");
@@ -32,7 +33,7 @@ int			putin(char **map, t_fgr *fgr, int s)
 			{
 				k = -1;
 				f = 0;
-				while (++k <= 15)
+				while (++k <= 12)
 				{
 			//		printf(" k_=%d ", ((fgr->fgr_int) & (1 << k)) == 1);
 	//				printf(" ik_=%d ", (fgr->fgr_int >> k) & 1u);
@@ -54,13 +55,16 @@ int			putin(char **map, t_fgr *fgr, int s)
 					{
 						++f;
 					//	if (f == 4)
-						//printf(" k_=%d ", (fgr->fgr_int >> k) & 1);//fgr->fgr_int & (1 << k));
-					}
+					} 
+			//		ft_print_bits((fgr->fgr_int & (1 << k)));
+//					ft_print_bits((fgr->fgr_int >> k) & 1);//this was important 
+//					printf("\n   ");
+				//printf(" k_=%d ", (fgr->fgr_int >> k) & 1);//fgr->fgr_int & (1 << k));}	
 				}
 				if (f == 4)
 				{
 					k = -1;
-					while (++k <= 15)
+					while (++k <= 12)
 					{	if (fgr->fgr_int & (1 << k))//if (((fgr->fgr_int << k) & 1))//&& y + k /4 < s && x + k%4 < s
 						//	&& map[y + k/4][x + k%4] == '.')
 							map[y + k/4][x+ k%4] = fgr->fgr_chr;
