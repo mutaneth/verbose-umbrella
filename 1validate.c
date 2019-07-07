@@ -51,6 +51,7 @@ char			*ft_fgr_line(int fd)// malloc??
 		{
 			if (tmp)
 				free(tmp);
+			if (fgrl) free(fgrl); //////////
 			return (NULL);//free fgrl?
 		}
 	}
@@ -64,10 +65,11 @@ t_fgr			*fgr_new(char fgr_chr, char *line)/* creates new node in t_fgr. chr star
 {
 	t_fgr	*fgr;
 
-	fgr = (t_fgr*)malloc(sizeof(t_fgr));
+	if (!(fgr = (t_fgr*)malloc(sizeof(t_fgr))))
+		return (NULL);
 	fgr->fgr_int = -1;
 	fgr->fgr_chr = fgr_chr;
-	fgr->fgr_line = ft_strdup(line);
+	fgr->fgr_line = ft_strdup(line);//do we need to check?
 	fgr->next = NULL;
 	return (fgr);
 }

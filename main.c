@@ -13,12 +13,12 @@
 #include "fillit.h"
 
 /*	printf("k=%c\n", map[j + (k % 4)][i + (k / 4)]);*/
-static void			ft_err()
+static void			ft_err(void)
 {
 	write(1, "error\n", 6);
 }
 
-static void			ft_use()
+static void			ft_use(void)
 {
 	write(1, "usage: ./fillit input_file\n", 27);//277
 }
@@ -63,6 +63,7 @@ int			st(char **av/*int fd */)//return fd if ok st
 		return (0);
 	}
 	fd = open(av[1], O_RDONLY);
+	printf("op=%d",fd);
 	return (fd);
 }
 
@@ -75,10 +76,12 @@ void		build_f(t_fgr *r, int fd)
 
 	c = fgr_count(r);
 	s = sqrt(c * 4);//i guess s must be sqrt(all #'s * 4)// 2 figurs -> s = 5-6//c*4*4?
+
 	printf(" m_c=%d ",c);
 	printf(" m_s=%d ", s);
 	map = mapc(r, s);
 //	i=0;
+	s = 4;	//
 	i = putin(map, r, s);
 	if (i == 4)
 	{
@@ -101,7 +104,8 @@ int			main(int ac, char **av)// huge main
 
 	if (ac == 2)
 	{
-		fd = st(av);
+		if (!(fd = st(av))) printf(" fdd=%d ", fd);
+			return(0);
 		if ((r = mega_fgr_val(fd)) == NULL)
 		/*st();*/ //r = mega_fgr_val(st(av));//r = mega_fgr_val(fd);
 		{
