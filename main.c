@@ -6,23 +6,13 @@
 /*   By: ddratini <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 16:33:24 by ddratini          #+#    #+#             */
-/*   Updated: 2019/07/06 21:13:55 by ddratini         ###   ########.fr       */
+/*   Updated: 2019/07/10 18:10:04 by ddratini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
 /*	printf("k=%c\n", map[j + (k % 4)][i + (k / 4)]);*/
-static void			ft_err(void)
-{
-	write(1, "error\n", 6);
-}
-
-static void			ft_use(void)
-{
-	write(1, "usage: ./fillit input_file\n", 27);//277
-}
-
 int 		read_max(int fd)
 {
 	int ret;
@@ -30,14 +20,14 @@ int 		read_max(int fd)
 
 	if ((ret = read(fd, buf, 546)) == 546 || ret == -1)
 	{
-		ft_err();//error message
+		ft_putendl("error");//error message
 		return (0);
 	}
 	else
 	{
 		//ok actually write(1, "error msg\n", 10);//error message
 //		close(fd);
-		ft_err();
+		ft_putendl("error");
 		return (1);
 	}
 }
@@ -55,13 +45,13 @@ int			st(char **av/*int fd */)//return fd if ok st
 		return (0);//need free?? exit??
 	}
 	fd = open(av[1], O_RDONLY);
-	if (!(check_n(fd)))
+/*	if (!(check_n(fd)))
 	{
 		printf(" sl_n-wrong ");
-		ft_err();
+		ft_putendl("error");
 		close(fd);
 		return (0);
-	}
+	}*/
 	fd = open(av[1], O_RDONLY);
 	printf("op=%d",fd);
 	return (fd);
@@ -79,10 +69,14 @@ void		build_f(t_fgr *r, int fd)
 
 	printf(" m_c=%d ",c);
 	printf(" m_s=%d ", s);
+	s = 5;
 	map = mapc(r, s);
-//	i=0;
+	i=0;
 	s = 4;	//
-	i = putin(map, r, s);
+//	map[0] = "AAA.";
+//	map[0][0]='a'; map[0][1]='a';map[0][2]='a';//map[0][3]='a';
+	//s= 5;
+			six (map, r, s);//i = putin(map, r, s);
 	if (i == 4)
 	{
 		printf("i=4");
@@ -93,7 +87,7 @@ void		build_f(t_fgr *r, int fd)
 	i = -1;
 	printf("\n");
 	while (map[++i])
-		printf("map[i]%s i=%d\n", map[i], i);
+		printf("map[%d]%s|\n", i, map[i]);
 	close(fd);
 }
 
@@ -102,25 +96,27 @@ int			main(int ac, char **av)// huge main
 	t_fgr 	*r;
 	int 	fd;
 
-	if (ac == 2)
+	if (ac != 2)
 	{
-		if (!(fd = st(av))) printf(" fdd=%d ", fd);
-			return(0);
-		if ((r = mega_fgr_val(fd)) == NULL)
-		/*st();*/ //r = mega_fgr_val(st(av));//r = mega_fgr_val(fd);
-		{
-			ft_err();//close (fd); ? //fre??ext
-			return (0);//+ errror message
-		}
-		else
-		{
-			printf("mgfgrvl-ok ");
-			build_f(r, fd);
-		}
+		ft_putendl("usage: ./fillit tetro_file!");//right use msg
+		return (1);
+	}
+	if (!(fd = st(av))) 
+	{
+		printf(" fdd=%d ", fd);
+		return(1);
+	}
+	if ((r = mega_fgr_val(fd)) == NULL)
+	/*st();*/ //r = mega_fgr_val(st(av));//r = mega_fgr_val(fd);
+	{
+		ft_putendl("error");//close (fd); ? //fre??ext
+		return (0);//+ errror message
 	}
 	else
-		write(1, "./fillit tetro_file!\n", 21);//right use msg
-		ft_use();
+	{
+		printf("mgfgrvl-ok ");
+		build_f(r, fd);
+	}
 	return (0);
 }
 
