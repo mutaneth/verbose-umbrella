@@ -63,18 +63,24 @@ int			rcrs(char **min_map, t_fgr *fgrlst)//recursion /
 	return (0);
 }
 */
-int six(char **map, t_fgr *fgr, int s)//correct placement for non corn fgrs
+int twenty_one(char **map, t_fgr *fgr, int s)
 {
-	int x;
+		int x;
 	int y;
 	int f;
 	int k;
 	int d;
-	printf( " fgr-fin=%d ", fgr->fgr_int);
-	if (fgr->fgr_int == 29)
-		fgr->fgr_int  = (fgr->fgr_int << 2) | 1; //if fgr is 2 points + x = start
+	printf( " fgr-fin=%d ", fgr->fgr_int);//maybe not 1/ 2??????
+	if (fgr->fgr_int == 29)//if x = 2 is filled??
+	{
+		fgr->fgr_int  = (fgr->fgr_int << 2);// | 1; //if fgr is 2 points + x = start
+		printf(" mvdint=%d ", fgr->fgr_int);
+	}
 	else
-		fgr->fgr_int  = (fgr->fgr_int << 1) | 1; //if fgr is 1 points + x = start
+	{
+		fgr->fgr_int  = (fgr->fgr_int << 1);// | 1; //if fgr is 1 points + x = start
+		printf(" mvdint=%d ", fgr->fgr_int);
+	}
 	ft_print_bits(fgr->fgr_int);
 	y = -1; 	x = 0;/*??*/ k = 0;k=2;
 	y = 0;
@@ -90,27 +96,165 @@ int six(char **map, t_fgr *fgr, int s)//correct placement for non corn fgrs
 				k = -1;//k  =2;
 				f = 0;
 				d = 2 - 1;
-				while (++k <= 12)
+	/*			if (x < 2)
 				{
-					if (k>0)
-					if ((fgr->fgr_int >> k) & 1)//((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))/* ((fgr->fgr_int >> k) & 1)*/
-						if (( y + k / 4) < s)
-							if ((x + (k % 4) ) < s)//if ((x + k % 4 ) < s)
-								if ( map[y + k/4][x + k%4] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
+					if (fgr->fgr_int == 29)//if x = 2 is filled??
+						fgr->fgr_int  = (fgr->fgr_int << 2) | 1; //if fgr is 2 points + x = start
+					else
+						fgr->fgr_int  = (fgr->fgr_int << 1) | 1; //if fgr is 1 points + x = start
+				}
+	*/			while (++k <= 12)
+				{
+			//		if (x >= 2 &&  k>0)//?????? s+=-1;0?
+		//			if (x < 2)// int == 29
+		//			{
+					d = 0;
+				//	if (x == 3)
+					if (k == 0) //for 29
+					{
+						if ((fgr->fgr_int >> k) & 1)
+							if (( y + k / 4) < s) //+ x+2
+							if ( map[y + k/4 + 0][x + (k/* +2*/)%4  -2] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
 								{
 									++f;
 								}
+					}
+					else
+					{
+					if ((fgr->fgr_int >> k) & 1)//((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))/* ((fgr->fgr_int >> k) & 1)*/
+						if (( y + k / 4) < s)
+							if ((x + ((k % 4) )-2) < s)//if ((x + k % 4 ) < s)
+								if ( map[y + k/4 + 0][x + k%4  -2] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
+								{
+									++f;
+								}
+					}
+			//		if ((fgr->fgr_int >> k) & 1)//((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))/* ((fgr->fgr_int >> k) & 1)*/
+			//			if (( y + k / 4) < s)
+			//				if ((x + (k % 4) ) < s)//if ((x + k % 4 ) < s)
+			///					if ( map[y + k/4 ][x + k%4 ] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
+				//				{
+				//					++f;
+			//					}
 				}
 				if (f == 4)
 				{
 					k = -1;
 					d = 2 - 1;
 					while (++k <= 12)
-					{	if (k>0)
+					{	////////////if (k>0)
+						if ((fgr->fgr_int >> k) & 1 && k == 0)
+						{
+							map[y + k/4  ][x+ ((k/*+2*/) %4) -2] = fgr->fgr_chr;//x+2 for 29
+						}
+						else
+						{
 						if ((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))//if (((fgr->fgr_int << k) & 1))//&& y + k /4 < s && x + k%4 < s
-						//	&& map[y + k/4][x + k%4] == '.')
-							map[y + k/4][x+ (k %4)] = fgr->fgr_chr;//map[y + k/4][x+ k%4] = fgr->fgr_chr;
+							/* if*/// 	&& map[y + k/4][x + k%4] == '.')
+/*why norm fgs place??*/	map[y + k/4  ][x+ (k %4) -2] = fgr->fgr_chr;//map[y + k/4][x+ k%4] = fgr->fgr_chr;
+						}
+					}//x-1 if 29 else   //well -1;+2 have put Z_up but lso unrelated fgrs..
+					return (1);
+				}
+			}
+			++x;
+		}
+		++y;
+	}
+	return (0);
+}
+int six(char **map, t_fgr *fgr, int s)//correct placement for non corn fgrs
+{
+	int x;
+	int y;
+	int f;
+	int k;
+	int d;
+	printf( " fgr-fin=%d ", fgr->fgr_int);//maybe not 1/ 2??????
+	if (fgr->fgr_int == 29)//if x = 2 is filled??
+	{
+		return (twenty_one(map, fgr, s));///
+	//	fgr->fgr_int  = (fgr->fgr_int << 2);// | 1; //if fgr is 2 points + x = start
+		printf(" mvdint=%d ", fgr->fgr_int);
+	}
+	else
+	{
+		fgr->fgr_int  = (fgr->fgr_int << 1);// | 1; //if fgr is 1 points + x = start
+		printf(" mvdint=%d ", fgr->fgr_int);
+	}
+	ft_print_bits(fgr->fgr_int);
+	y = -1; 	x = 0;/*??*/ k = 0;k=2;
+	y = 0;
+	//fgr->fgr_int = rev_bit(fgr->fgr_int);
+	while (map[y]/* [x]*/)
+	{
+		printf(" newln---");
+		/*x = 2;*/x = 0;//x = -1;
+		while (map[y][x])
+		{
+			if (map[y][x] == '.')//when found space check in cucle fitting of the fgr
+			{
+				k = -1;//k  =2;
+				f = 0;
+				d = 2 - 1;
+	/*			if (x < 2)
+				{
+					if (fgr->fgr_int == 29)//if x = 2 is filled??
+						fgr->fgr_int  = (fgr->fgr_int << 2) | 1; //if fgr is 2 points + x = start
+					else
+						fgr->fgr_int  = (fgr->fgr_int << 1) | 1; //if fgr is 1 points + x = start
+				}
+	*/			while (++k <= 12)
+				{
+			//		if (x >= 2 &&  k>0)//?????? s+=-1;0?
+		//			if (x < 2)// int == 29
+		//			{
+					d = 0;
+				//	if (x == 3)
+					if (k == 0) //for 29
+					{
+						if ((fgr->fgr_int >> k) & 1)
+							if (( y + k / 4) < s) //+ x+2
+							if ( map[y + k/4 + 0][x + (k/* +2*/)%4  -1] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
+								{
+									++f;
+								}
 					}
+					else
+					{
+					if ((fgr->fgr_int >> k) & 1)//((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))/* ((fgr->fgr_int >> k) & 1)*/
+						if (( y + k / 4) < s)
+							if ((x + ((k % 4) )-1) < s)//if ((x + k % 4 ) < s)
+								if ( map[y + k/4 + 0][x + k%4  -1] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
+								{
+									++f;
+								}
+					}
+			//		if ((fgr->fgr_int >> k) & 1)//((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))/* ((fgr->fgr_int >> k) & 1)*/
+			//			if (( y + k / 4) < s)
+			//				if ((x + (k % 4) ) < s)//if ((x + k % 4 ) < s)
+			///					if ( map[y + k/4 ][x + k%4 ] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
+				//				{
+				//					++f;
+			//					}
+				}
+				if (f == 4)
+				{
+					k = -1;
+					d = 2 - 1;
+					while (++k <= 12)
+					{	////////////if (k>0)
+						if ((fgr->fgr_int >> k) & 1 && k == 0)
+						{
+							map[y + k/4  ][x+ ((k/*+2*/) %4) -1] = fgr->fgr_chr;//x+2 for 29
+						}
+						else
+						{
+						if ((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))//if (((fgr->fgr_int << k) & 1))//&& y + k /4 < s && x + k%4 < s
+							/* if*/// 	&& map[y + k/4][x + k%4] == '.')
+/*why norm fgs place??*/	map[y + k/4  ][x+ (k %4) -1] = fgr->fgr_chr;//map[y + k/4][x+ k%4] = fgr->fgr_chr;
+						}
+					}//x-1 if 29 else   //well -1;+2 have put Z_up but lso unrelated fgrs..
 					return (1);
 				}
 			}
@@ -127,13 +271,13 @@ int		putin(char **map, t_fgr *fgr, int s)/* puts 1 fgr in map */
 	int y;
 	int f;
 	int k;
-	int d;
+//	int d;
 
 	printf(" pur_s=%d ", s);
 //	fgr->fgr_int  = (fgr->fgr_int << 2) | 1;
 	ft_print_bits(fgr->fgr_int);
 	if (fgr->fgr_int == 281 || fgr->fgr_int == 401 || fgr->fgr_int == 57 || fgr->fgr_int == 27 || fgr->fgr_int == 153 || fgr->fgr_int == 29)
-		six();
+		return (202);//six();
 	y = -1; 	x = 0;/*??*/ k = 0;k=2;
 	printf("knumofbit=%d ik_=%d ", k,(fgr->fgr_int >> 2) & 1u);//this shows 1 or no in the >>place
 	printf("bitsval=%d ", (fgr->fgr_int & (1u << 2)));//and this one - the value externally
@@ -149,12 +293,10 @@ int		putin(char **map, t_fgr *fgr, int s)/* puts 1 fgr in map */
 			{
 				k = -1;//k  =2;
 				f = 0;
-				d = 2 - 1;
 				while (++k <= 12)
 				{
 	//				printf(" fint>>k) & 1=%d k=%d ", (fgr->fgr_int >> k) & 1, k);
 	//				printf(" x+k=%d y+k/4=%d\n", x + k % 4, y+ k /4);
-					if (k>0)
 					if ((fgr->fgr_int >> k) & 1)//((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))/* ((fgr->fgr_int >> k) & 1)*/
 						if (( y + k / 4) < s)
 							if ((x + (k % 4) ) < s)//if ((x + k % 4 ) < s)
@@ -168,9 +310,8 @@ int		putin(char **map, t_fgr *fgr, int s)/* puts 1 fgr in map */
 				if (f == 4)
 				{
 					k = -1;
-					d = 2 - 1;
 					while (++k <= 12)
-					{	if (k>0)
+					{
 						if ((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))//if (((fgr->fgr_int << k) & 1))//&& y + k /4 < s && x + k%4 < s
 						//	&& map[y + k/4][x + k%4] == '.')
 							map[y + k/4][x+ (k %4)] = fgr->fgr_chr;//map[y + k/4][x+ k%4] = fgr->fgr_chr;

@@ -6,12 +6,12 @@
 /*   By: hfalmer <hfalmer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 19:49:57 by hfalmer           #+#    #+#             */
-/*   Updated: 2019/07/06 21:02:05 by ddratini         ###   ########.fr       */
+/*   Updated: 2019/07/10 19:28:18 by ddratini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
-/*  int			check_input_count(char *blc) //check for wrong chars and extra #
+#include "fillit.h"/*
+int			check_input_count(char *blc) //check for wrong chars and extra #
 {
 	int i;
 	int sharp;
@@ -26,9 +26,10 @@
 		if (blcstr[i] == '#' && ++sharp > 4)
 			return (0);
 	}
+	if (sharp != 4)
+		return(404);
 	return (1);
-}
-*/
+}*/
 
 char			*ft_fgr_line(int fd)// malloc??
 {
@@ -57,7 +58,7 @@ char			*ft_fgr_line(int fd)// malloc??
 	}
 	if (i != 4 && get_next_line(fd, &tmp) != 1)
 		return (NULL);
-		printf("fgrl=%s", fgrl);
+		printf(" fgrl=%s ", fgrl);
 	return (fgrl);
 }
 
@@ -195,11 +196,13 @@ int		fgrl_xtra_01(char *fgr_line)/* checks if this line is valid and change symb
 {
 	int	i;
 	int	l;
+	int b;
 
 	l = ft_strlen(fgr_line);
 	if (l != 16)
 		return (0);
 	i = -1;
+	b = 0;
 	while (++i < l)
 	{
 		if (fgr_line[i] != '.' && fgr_line[i] != '#')
@@ -208,7 +211,9 @@ int		fgrl_xtra_01(char *fgr_line)/* checks if this line is valid and change symb
 		if (fgr_line[i] == '.')
 			fgr_line[i] = '0';
 		else
+		{
 			fgr_line[i] = '1';
+		}
 	}
 	return (1);
 }
