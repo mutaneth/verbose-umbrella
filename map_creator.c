@@ -52,21 +52,20 @@ char	**mapc(t_fgr *fgrlst, int flg)/* creates the minimal start map*/
 	c = fgr_count(fgrlst);
 	s = sqrt(c * 4);
 	s = 5;
-	printf(" C=%d ", c);
-	printf("Ssqrt=%d\n",s);
-	flg = flg - 1 + 1;//
+	//printf(" C=%d ", c);
+	//printf("Ssqrt=%d\n",s);
 	if (s < 2)
 		s = 2;
 		s = 4;
 	//	s = 5;
-	if (!(map = (char**)malloc(s * sizeof(char *)  + 1 )))
+	if (!(map = (char**)malloc(flg * sizeof(char *)  + 1 )))
 		return (NULL);
 	while (++i < s)
 	{
-		if (!(map[i] = (char*)malloc(s * sizeof(char) + 1)))
+		if (!(map[i] = (char*)malloc(flg * sizeof(char) + 1)))
 			return (NULL);
-		ft_memset(map[i], '.', s);
-		map[i][s] = '\0';
+		ft_memset(map[i], '.', flg);
+		map[i][flg] = '\0';
 	//	printf("%s\n", map[i]);
 	}
 	map[i] = 0;//!!!!!!!!!

@@ -64,61 +64,24 @@ void		build_f(t_fgr *r, int fd)
 	int i;
 	char **map;
 //	t_fgr *fgr;
+	int flg;
 
-	c = fgr_count(r);
-	s = sqrt(c * 4);//i guess s must be sqrt(all #'s * 4)// 2 figurs -> s = 5-6//c*4*4?
-
-	printf(" m_c=%d ",c);
+	c = fgr_count(fgrlst);
+	flg = sqrt(c * 4);//i guess s must be sqrt(all #'s * 4)// 2 figurs -> s = 5-6//c*4*4?
+/*	printf(" m_c=%d ",c);
 	printf(" m_s=%d ", s);
-	s = 5;
-	map = mapc(r, s);
+//	s = 5;
+	map = mapc(fgrlst, s);
 	i=0;
-	s = 4;	//
-//	map[0] = "AAA.";
-	map[0][0]='a'; 
-	map[0][1]='a';map[0][2]='a';//map[0][3]='a';
-	//s= 5;
-			//six (map, r, s);
-/*	if (r->fgr_int == 29)
+//	s = 4; */	
+//	map = mapc(map, r);
+	map = mapc(r, flg);
+	while ( rcrs(map, r, flg) == 0)
 	{
-		int	res;
-		int	fo;
-		int	i;
-		int	minx;
-		char *str = r->fgr_line;
-		res = 0;
-		fo = -1;
-		i = -1;
-		minx = 3;
-		while (++i < 16)
-		{
-			if (str[i] == '#')
-			{
-				if ((i % 4) < minx)
-					minx = i % 4;
-				if (fo == -1)
-					fo = i;
-				res += 1 << (i - fo + (fo % 4));
-			}
-		}
-		res = res >> minx;
-		r->fgr_int = res; printf(" res_int=%d ", r->fgr_int);
-	}*/
-		i = putin(map, r, s);
-	if (i == 202)
-		six (map, r, s);//map r s -changed??mod
-	if (i == 4)
-	{
-		printf("i=4");
-//			place(map, r, s);
+		++flg;
+		map = mapc(r, flg);//tmp?
 	}
-	else
-		printf(" iif!=4! ");
-	i = -1;
-	printf("\n");
-	while (map[++i])
-		printf("map[%d]%s|\n", i, map[i]);
-	close(fd);
+	close(fd);//necssry?
 }
 
 int			main(int ac, char **av)// huge main

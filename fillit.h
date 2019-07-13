@@ -6,7 +6,7 @@
 /*   By: hfalmer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 03:02:14 by hfalmer           #+#    #+#             */
-/*   Updated: 2019/05/17 20:00:43 by hfalmer          ###   ########.fr       */
+/*   Updated: 2019/07/10 18:46:34 by ddratini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ typedef struct		s_fgr
 }					t_fgr;
 
 # define FGR1 0000 0000
+
+int six(char **map, t_fgr *fgr, int s);//correct placement for non corn fgrs
+unsigned int		rev_bit(unsigned char octet);
 char				*ft_fgr_line(int fd);// malloc??
 t_fgr				*fgr_new(char fgr_chr, char *line);/* creates new node in t_fgr. chr starts with 65 and then iterates to 90*/
 t_fgr				*fgr_lst(char i, char *line, t_fgr *fgr); /*     */
@@ -41,6 +44,10 @@ void				map_free(char **map, t_fgr *fgrlst);// huita
 char				**map_increaser(t_fgr *fgrlst, char **map, int flg);// flg = iterrator
 int     			check_n(int fd);
 int 		place(char **map, t_fgr *fgr, int s);//(int f);
-
 int			four_check(char **map, t_fgr *fgr, int x, int y, int s);
+int			check_input_count(char *blc); //check for wrong chars and extra #
+int			rcrs(char **min_map, t_fgr *fgrlst, int flg_s);//recursion /
+
+//forbidden funcs in header>?
+
 #endif

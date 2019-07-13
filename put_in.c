@@ -12,14 +12,74 @@
 
 #include "fillit.h"
 
-int			rcrs(char **min_map, t_fgr *fgrlst)//recursion /
+int			rcrs(char **min_map, t_fgr *fgrlst, int flg_s)//recursion /
 {
+	int t;
+	int i;
+	int x;
+	int y;
+
+	t = 0;
 //	if (putin() != 1)
 	{
 		printf("not placed");
 	//	mapc();increase map
 	}
-	return(99);
+	while ( t < flg_s)
+	{
+		if (putin(min_map, fgrlst, flg_s))
+		{
+			if (fgrlst->next)
+				if (rcrs(map, fgrlst->next))
+					return (1);
+		}
+	}
+//	min_map[0] = "AAA.";
+	min_map[0][0]='a'; 
+	min_map[0][1]='a';min_map[0][2]='a';//min_map[0][3]='a';
+	//s= 5;
+			//six (map, r, s);
+/*	if (r->fgr_int == 29)
+	{
+		int	res;
+		int	fo;
+		int	i;
+		int	minx;
+		char *str = r->fgr_line;
+		res = 0;
+		fo = -1;
+		i = -1;
+		minx = 3;
+		while (++i < 16)
+		{
+			if (str[i] == '#')
+			{
+				if ((i % 4) < minx)
+					minx = i % 4;
+				if (fo == -1)
+					fo = i;
+				res += 1 << (i - fo + (fo % 4));
+			}
+		}
+		res = res >> minx;
+		r->fgr_int = res; printf(" res_int=%d ", r->fgr_int);
+	}*/
+		i = putin(min_map, fgrlst, flg_s);
+	if (i == 202)
+		six (min_map, fgrlst, flg_s);//map r s -changed??mod
+	if (i == 4)
+	{
+		printf("i=4");
+//			place(map, r, s);
+	}
+	else
+		printf(" iif!=4! ");
+	i = -1;
+	printf("\n");
+	while (min_map[++i])
+		printf("map[%d]%s|\n", i, min_map[i]);
+	return (0);
+//	return(99);
 }
 
 /*void 		alg()
