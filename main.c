@@ -37,7 +37,7 @@ int			st(char **av/*int fd */)//return fd if ok st
 	int	fd;
 
 	fd = open(av[1], O_RDONLY);
-	printf("fd_st=%d ", fd);
+	printf("1)fd_st=%d ", fd);
 	if (read_max(fd) == 0)
 	{
 		printf(" readmax>26||-1 ");
@@ -53,7 +53,7 @@ int			st(char **av/*int fd */)//return fd if ok st
 		return (0);
 	}*/
 	fd = open(av[1], O_RDONLY);
-	printf("op=%d",fd);
+	printf("3)op=%d",fd);
 	return (fd);
 }
 
@@ -110,6 +110,7 @@ int			main(int ac, char **av)// huge main
 		printf(" fdd=%d ", fd);
 		return(1);
 	}
+	printf(" fdmain=%d ", fd);
 	if ((r = mega_fgr_val(fd)) == NULL)/*st();*/ //r = mega_fgr_val(st(av));//r = mega_fgr_val(fd);
 	{
 		ft_putendl("error-inv");//close (fd); ? //fre??ext
@@ -119,12 +120,12 @@ int			main(int ac, char **av)// huge main
 	{
 		printf("mgfgrvl-ok ");
 		tmp = r;
-		while (tmp)
+/*		while (tmp)
 		{
 			printf(" tmp->fgr_int=%d ", tmp->fgr_int);
 			tmp = tmp->next;
-		}
-		return(111111);
+		}//works lists
+		return(111111);*/
 		build_f(r);//here we build map, place figures, solving problems
 		//if build_f () ok ?
 		close(fd);//necssry?

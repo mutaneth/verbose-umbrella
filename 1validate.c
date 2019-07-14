@@ -30,37 +30,63 @@ int			check_input_count(char *blc) //check for wrong chars and extra #
 		return(404);
 	return (1);
 }*/
-
+//	GNL returns 0 after 1 f read *****************
 char			*ft_fgr_line(int fd)// malloc??
 {
 	int i;
 	char *tmp;
 	char *fgrl;
+	int gr;
 
 	i = -1;
 	fgrl = "";
-	while(++i < 4  && get_next_line(fd, &tmp) == 1)
+	while(++i < 4 && (gr =get_next_line(fd, &tmp)) == 1)
 	{
+//		printf(" gr=%d ", ++gr);
 		if (!tmp)
 		{
 			printf("kek");
 			return (NULL);
 		}
+//		printf(" tmp_gnl=%s\n", tmp);
 		if (ft_strlen(tmp) == 4)
 			fgrl = ft_strrejoin(fgrl, tmp, 1);//ft_strrejoin(tmp, fgrl, -1);
 		else
 		{
 			if (tmp)
 				free(tmp);
-			if (fgrl) free(fgrl); //////////
+		//	if (fgrl) free(fgrl); //////////expresion has occured
 			return (NULL);//free fgrl?
 		}
 	}
-	if (i != 4 && get_next_line(fd, &tmp) != 1)
+//	printf(" gr=%d ", gr);
+//	if (fgrl) free(fgrl); //////////
+	if (i != 4 )
+		if ( get_next_line(fd, &tmp) != 1)//i=gnl?
 		return (NULL);
-		printf(" fgrl=%s ", fgrl);
+		printf(" fgrl=%s\n", fgrl);
 	return (fgrl);
 }
+ /*
+char		*ft_fgr_line(int fd)// malloc??
+{
+	int i;
+	char *tmp;
+	char *fgrl;
+	int ret;
+	char bug[6];// * buf?
+
+	i = -1;
+	fgrl = "";
+	while( ret = read(fd, bug, 5) == 5)
+	{
+		if (buf[4] != '\n')
+			return (NULL);
+		bug[5] = '\0';
+		fgrl = ft_strrejoin(fgrl, buf);
+	printf(" fgrl=%s\n", fgrl);
+	return (fgrl);
+}*/
 
 t_fgr			*fgr_new(char fgr_chr, char *line)/* creates new node in t_fgr. chr starts with 65 and then iterates to 90*/
 {
@@ -134,7 +160,7 @@ void	fgr_push_back(t_fgr **begin_list, char *data, char i)
 {
 	t_fgr	*tmp;
 
-//	printf("push_back1: %d\n", (int)i);
+	printf(" push_back1: %d ", (int)i);
 	if (!(*begin_list))
 	{
 		*begin_list = fgr_new(i, data);
@@ -142,8 +168,13 @@ void	fgr_push_back(t_fgr **begin_list, char *data, char i)
 	}
 	tmp = *begin_list;
 //	printf("push_back2: %d\n", (int)i);
+//	printf("FFFFFFF");
+//	printf("\n pbtmp=%d WTF !!!!!!!!!!!!!!!!", tmp->fgr_chr);
 	while (tmp->next)
+	{
+		printf(" pbtmp=%d !", tmp->fgr_chr);
 		tmp = tmp->next;
+	}
 //	printf("push_back3: %d\n", (int)i);
 	tmp->next = fgr_new(i, data);
 //	printf("push_back4: %d\n", (int)i);
@@ -160,17 +191,30 @@ t_fgr		*after_line(int fd)/* just check \n and \0 yuhoo and fill the fgr*/
 
 	fgr = NULL;
 	i = 'A' - 1;
+	printf(" fd-al=%d ", fd);
+	printf(" buf=5%s-", buf);
+	printf(" buf[0]=%c, buf[1]=%c, nuf[2]=-", buf[0], buf[1]);
 	while ((line = ft_fgr_line(fd)) && ++i < 'Z')
 	{
-		if (((check = read(fd, buf, 1)) == 1) && buf[0] != '\n')
-			return (NULL);// free
-		if (!check)
+	//	check = read(fd, buf, 1);
+		printf(" chred=%d ", check);
+		if (((check = read(fd, buf, 1)) == 1))
+			if (buf[0] != '\n')
+			{
+				printf(" buf[0]=%c-", buf[0]);
+				return (NULL);// free
+			}
+		buf[1] = '\0';
+		printf(" checl=%d ", check);
+		printf(" buf=%s-", buf);
+		if (check == 0)
 		{
 			fgr_push_back(&fgr, line, (char)i);
-			break;
+	//		break ;//?????????
 		}
-		printf("i=%c\n", (char)i);
-		fgr_push_back(&fgr, line, (char)i);
+		printf("i=%c-", (char)i);
+		if (check)
+			fgr_push_back(&fgr, line, (char)i);
 	}
 	return (fgr);
 }
@@ -265,6 +309,7 @@ t_fgr			*mega_fgr_val(int fd)
 //	char *line; //unused variabel
 
 	ok_fgr = NULL;
+	printf(" fd-mgdfdl=%d ", fd);
 	if (!(ok_fgr = after_line(fd)))
 	{
 		printf("bad");
@@ -286,6 +331,14 @@ t_fgr			*mega_fgr_val(int fd)
 	{
 		printf("rr-intcheck\n");
 		return (NULL);// free
+	}
+	t_fgr *ttmp;
+	ttmp = ok_fgr;
+	while (ttmp)
+	{
+		printf(" t_mp->fgr_int=%d ", ttmp->fgr_int);
+		ttmp = ttmp->next;
+
 	}
 	return (ok_fgr);
 }
