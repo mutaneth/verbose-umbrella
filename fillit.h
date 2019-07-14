@@ -39,14 +39,14 @@ int					int_check(t_fgr *fgr);
 t_fgr				*mega_fgr_val(int fd);
 int					putin(char **map, t_fgr *fgr, int s);/* puts 1 fgr in map */
 int					fgr_count(t_fgr *fgrlst);/* just count fgrs*/
-char				**mapc(t_fgr *fgrlst, int flg);/* creates the minimal start map*/
+char				**mapc(int flg);/* creates the minimal start map*/
 void				map_free(char **map, t_fgr *fgrlst);// huita
 char				**map_increaser(t_fgr *fgrlst, char **map, int flg);// flg = iterrator
 int     			check_n(int fd);
-int 		place(char **map, t_fgr *fgr, int s);//(int f);
-int			four_check(char **map, t_fgr *fgr, int x, int y, int s);
-int			check_input_count(char *blc); //check for wrong chars and extra #
-int			rcrs(char **min_map, t_fgr *fgrlst, int flg_s);//recursion /
+int 				place(char **map, t_fgr *fgr, int y, int x);//int s);//(int f);
+int					four_check(char **map, t_fgr *fgr, int x, int y, int s);
+int					check_input_count(char *blc); //check for wrong chars and extra #
+int					rcrs(char **min_map, t_fgr *fgrlst, int flg_s);//recursion /
 
 //forbidden funcs in header>?
 

@@ -6,7 +6,7 @@
 /*   By: hfalmer <hfalmer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 03:40:51 by hfalmer           #+#    #+#             */
-/*   Updated: 2019/05/23 04:15:49 by hfalmer          ###   ########.fr       */
+/*   Updated: 2019/07/14 15:53:50 by ddratini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		fgr_count(t_fgr *fgrlst)/* just count fgrs*/
 	int		c;
 	t_fgr	*tmpl;
 
-	if (!fgrlst)
+	if (!fgrlst)//?
 		return (0);
 	c = 1;
 	tmpl = fgrlst;
@@ -41,34 +41,23 @@ int		fgr_count(t_fgr *fgrlst)/* just count fgrs*/
 	return (c);
 }
 
-char	**mapc(t_fgr *fgrlst, int flg)/* creates the minimal start map*/
+char	**mapc(int flg)//, int c_fg)/* creates the minimal start map*/
 {
-	int		c;
-	int		s;
 	char	**map;
 	int		i;
 
-	i = -1;
-	c = fgr_count(fgrlst);
-	s = sqrt(c * 4);
-	s = 5;
-	//printf(" C=%d ", c);
-	//printf("Ssqrt=%d\n",s);
-	if (s < 2)
-		s = 2;
-		s = 4;
-	//	s = 5;
-	if (!(map = (char**)malloc(flg * sizeof(char *)  + 1 )))
+	i = -1;//free?
+	if (!(map = (char**)malloc((flg + 1) * sizeof(char *))))
 		return (NULL);
-	while (++i < s)
+	while (++i < flg)
 	{
-		if (!(map[i] = (char*)malloc(flg * sizeof(char) + 1)))
+		if (!(map[i] = (char*)malloc(sizeof(char) * (flg + 1))))
 			return (NULL);
 		ft_memset(map[i], '.', flg);
 		map[i][flg] = '\0';
 	//	printf("%s\n", map[i]);
 	}
-	map[i] = 0;//!!!!!!!!!
+	map[i] = 0;
 	i = -1;
 //	while (map[++i]) //			printf("%s\n", map[i]); //	while (++i < s)
 	return (map);

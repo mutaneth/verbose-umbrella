@@ -11,6 +11,19 @@
 /* ************************************************************************** */
 
 #include "fillit.h"
+int place(char **map, t_fgr *fgr, int y, int x)// fgr/fgrlst?
+{
+	int k;
+
+	k = -1;
+	while (++k <= 12)
+	{
+		if ((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))//if (((fgr->fgr_int << k) & 1))//&& y + k /4 < s && x + k%4 < s
+		//	&& map[y + k/4][x + k%4] == '.')
+			map[y + k/4][x+ (k %4)] = fgr->fgr_chr;//map[y + k/4][x+ k%4] = fgr->fgr_chr;
+	}
+	return (1);
+}
 
 int			rcrs(char **min_map, t_fgr *fgrlst, int flg_s)//recursion /
 {
@@ -19,26 +32,36 @@ int			rcrs(char **min_map, t_fgr *fgrlst, int flg_s)//recursion /
 	int x;
 	int y;
 
-	t = 0;
 //	if (putin() != 1)
 	{
 		printf("not placed");
 	//	mapc();increase map
 	}
-	while ( t < flg_s)
+	y = -1;
+	x = -1;
+//	min_map[0] = "AAA.";
+//	min_map[0][0]='a'; 
+//	min_map[0][1]='a';min_map[0][2]='a';//min_map[0][3]='a';
+	while (min_map[++y])
 	{
-		if (putin(min_map, fgrlst, flg_s))
+		t = -1;
+		printf("\n mimap[y][t]=%c y=%d t=%d ", min_map[y][t], y, t);
+		while (min_map[y][++t])//if ( t < flg_s)
 		{
-			if (fgrlst->next)
-				if (rcrs(map, fgrlst->next))
-					return (1);
+			i = -1;
+//			while (min_map[++i])
+//				printf("\nmap[%d]%s|", i, min_map[i]);
+			if (putin(min_map, fgrlst, flg_s) == 4)
+			{
+				place(min_map, fgrlst, y, t);//t for x
+				if (fgrlst->next)
+					if (rcrs(min_map, fgrlst->next, flg_s))
+						return (1);
+			}
 		}
 	}
-//	min_map[0] = "AAA.";
-	min_map[0][0]='a'; 
-	min_map[0][1]='a';min_map[0][2]='a';//min_map[0][3]='a';
-	//s= 5;
-			//six (map, r, s);
+	return (0);
+	//six (map, r, s);
 /*	if (r->fgr_int == 29)
 	{
 		int	res;
@@ -369,14 +392,7 @@ int		putin(char **map, t_fgr *fgr, int s)/* puts 1 fgr in map */
 				}
 				if (f == 4)
 				{
-					k = -1;
-					while (++k <= 12)
-					{
-						if ((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))//if (((fgr->fgr_int << k) & 1))//&& y + k /4 < s && x + k%4 < s
-						//	&& map[y + k/4][x + k%4] == '.')
-							map[y + k/4][x+ (k %4)] = fgr->fgr_chr;//map[y + k/4][x+ k%4] = fgr->fgr_chr;
-					}
-					return (1);
+					return (4);
 				}
 			}
 			++x;

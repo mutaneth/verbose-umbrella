@@ -57,37 +57,48 @@ int			st(char **av/*int fd */)//return fd if ok st
 	return (fd);
 }
 
-void		build_f(t_fgr *r, int fd)
+void		build_f(t_fgr *r)
 {
 	int c;
-	int s;
-	int i;
+//	int s;
+//	int i;
 	char **map;
 //	t_fgr *fgr;
+	t_fgr *fgrlist;//???
 	int flg;
 
-	c = fgr_count(fgrlst);
+	fgrlist = r;
+	//printf(" C=%d ", c);
+	//printf("Ssqrt=%d\n",s);
+//	if (flg < 2)
+		flg = 2;
+//		s = 4;
+	//	s = 5;
+	c = fgr_count(fgrlist);
 	flg = sqrt(c * 4);//i guess s must be sqrt(all #'s * 4)// 2 figurs -> s = 5-6//c*4*4?
 /*	printf(" m_c=%d ",c);
 	printf(" m_s=%d ", s);
 //	s = 5;
 	map = mapc(fgrlst, s);
-	i=0;
-//	s = 4; */	
+	i=0; */	
 //	map = mapc(map, r);
-	map = mapc(r, flg);
-	while ( rcrs(map, r, flg) == 0)
+	//flg = 0;
+	int i = -1;
+	map = mapc(flg);
+	while (map[++i])
+		printf("\nmap[%d]%s|", i, map[i]);
+	while (rcrs(map, r, flg) == 0)
 	{
 		++flg;
-		map = mapc(r, flg);//tmp?
+		map = mapc(flg);//tmp?
 	}
-	close(fd);//necssry?
 }
 
 int			main(int ac, char **av)// huge main
 {
 	t_fgr 	*r;
 	int 	fd;
+	t_fgr	*tmp;
 
 	if (ac != 2)
 	{
@@ -107,7 +118,16 @@ int			main(int ac, char **av)// huge main
 	else
 	{
 		printf("mgfgrvl-ok ");
-		build_f(r, fd);
+		tmp = r;
+		while (tmp)
+		{
+			printf(" tmp->fgr_int=%d ", tmp->fgr_int);
+			tmp = tmp->next;
+		}
+		return(111111);
+		build_f(r);//here we build map, place figures, solving problems
+		//if build_f () ok ?
+		close(fd);//necssry?
 	}
 	return (0);
 }
