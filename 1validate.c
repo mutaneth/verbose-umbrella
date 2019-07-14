@@ -62,7 +62,7 @@ char			*ft_fgr_line(int fd)// malloc??
 //	printf(" gr=%d ", gr);
 //	if (fgrl) free(fgrl); //////////
 	if (i != 4 )
-		if ( get_next_line(fd, &tmp) != 1)//i=gnl?
+		if ( gr != 1)//i=gnl?
 		return (NULL);
 		printf(" fgrl=%s\n", fgrl);
 	return (fgrl);
@@ -216,6 +216,8 @@ t_fgr		*after_line(int fd)/* just check \n and \0 yuhoo and fill the fgr*/
 		if (check)
 			fgr_push_back(&fgr, line, (char)i);
 	}
+	if (!line)	//if line = 0 free fgr lst
+		free_fgr(&fgr);
 	return (fgr);
 }
 
@@ -361,7 +363,7 @@ void	free_fgr(t_fgr **fgr)
 			free(t);
 		}
 		free(tmp);
-		free(*fgr);
-		free(fgr);
+//		free(*fgr);
+//		free(fgr);
 	}
 }

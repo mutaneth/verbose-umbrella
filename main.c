@@ -84,13 +84,18 @@ void		build_f(t_fgr *r)
 //	map = mapc(map, r);
 	//flg = 0;
 	int i = -1;
+	flg = 4;
 	map = mapc(flg);
+	if (putin(map, r, flg) == 4)//flg
+		place(map, r, 0,0);
+//	if (putin(map, r, flg) == 202)
+//		six(map, r, flg);
 	while (map[++i])
 		printf("\nmap[%d]%s|", i, map[i]);
-	while (rcrs(map, r, flg) == 0)
+//	while (rcrs(map, r, flg) == 0)
 	{
-		++flg;
-		map = mapc(flg);//tmp?
+//		++flg;
+//		map = mapc(flg);//tmp?
 	}
 }
 

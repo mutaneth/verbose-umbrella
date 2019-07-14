@@ -360,7 +360,7 @@ int		putin(char **map, t_fgr *fgr, int s)/* puts 1 fgr in map */
 //	fgr->fgr_int  = (fgr->fgr_int << 2) | 1;
 //	ft_print_bits(fgr->fgr_int);
 	if (fgr->fgr_int == 281 || fgr->fgr_int == 401 || fgr->fgr_int == 57 || fgr->fgr_int == 27 || fgr->fgr_int == 153 || fgr->fgr_int == 29)
-		return (202);//six();
+		return(six(map, fgr, s));//return (202);//six();
 	y = -1; 	x = 0;/*??*/ k = 0;k=2;
 	printf("knumofbit=%d ik_=%d ", k,(fgr->fgr_int >> 2) & 1u);//this shows 1 or no in the >>place
 	printf("bitsval=%d ", (fgr->fgr_int & (1u << 2)));//and this one - the value externally
