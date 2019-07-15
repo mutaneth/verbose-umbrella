@@ -11,19 +11,66 @@
 /* ************************************************************************** */
 
 #include "fillit.h"
+void print_map(char **map)
+{
+	int u;u = -1;
+	while (map[++u])
+		printf("\nmap[%d]%s|", u, map[u]);
+}
 
 int			place(char **map, t_fgr *fgr, int y, int x)// fgr/fgrlst?
 {
 	int k;
+	int chi;
+	int f;
 
 	k = -1;
+	f = 4;
+	chi = fgr->fgr_int;
+	if (chi == 281 * 2|| chi == 401 * 2||chi == 57 * 2|| chi == 27 * 2|| chi == 153 * 2)//|| chi == 29)
+	{
+		while (++k <= 12)
+		{
+			if ((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))//if (((fgr->fgr_int << k) & 1))//&& y + k /4 < s && x + k%4 < s
+			//	&& map[y + k/4][x + k%4] == '.')
+			{
+				if (map[y + k/4][x + (k % 4) -1])
+				{map[y + k/4][x+ (k %4) - 1] = fgr->fgr_chr;//map[y + k/4][x+ k%4] = fgr->fgr_chr;
+				--f;
+				}
+			}
+		}
+		if (f == 0)
+			return (2);
+		else
+			return (0);
+	}
+	if (chi == 29 )
+	{
+		while (++k <= 12)
+		{
+			if ((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))//if (((fgr->fgr_int << k) & 1))//&& y + k /4 < s && x + k%4 < s
+			//	&& map[y + k/4][x + k%4] == '.')
+			{
+				map[y + k/4][x+ (k %4) -2] = fgr->fgr_chr;//map[y + k/4][x+ k%4] = fgr->fgr_chr;
+				--f;
+			}
+		}
+		if (f == 0)
+			return (29);
+		else
+			return (0);
+	}
 	while (++k <= 12)
 	{
 		if ((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))//if (((fgr->fgr_int << k) & 1))//&& y + k /4 < s && x + k%4 < s
 		//	&& map[y + k/4][x + k%4] == '.')
-			map[y + k/4][x+ (k %4)] = fgr->fgr_chr;//map[y + k/4][x+ k%4] = fgr->fgr_chr;
-	}
-	return (1);
+		map[y + k/4][x+ (k %4)] = fgr->fgr_chr;//map[y + k/4][x+ k%4] = fgr->fgr_chr;
+	}//mb nof f
+	if (f == 0)
+		return (1);
+	else
+		return (0);	
 }
 
 int			rcrs(char **min_map, t_fgr *fgrlst, int flg_s)//recursion /
@@ -58,15 +105,16 @@ int			rcrs(char **min_map, t_fgr *fgrlst, int flg_s)//recursion /
 				printf(" -%s-", fgrlst->fgr_line);
 				if (fgrlst->next)
 					printf("\n , fgrlst->next\n");
-				while (min_map[++i])
-					printf("\nmap[%d]%s|", i, min_map[i]);
+				print_map(min_map);
+		//		while (min_map[++i])
+		//			printf("\nmap[%d]%s|", i, min_map[i]);
 				if (fgrlst->next)
 				{
 					if (rcrs(min_map, fgrlst->next, flg_s))
 						return (1);
 				}
-				if (!(fgrlst->next))
-					return (2);//break;
+		//		if (!(fgrlst->next))
+		//			return (2);//break;
 			//	else
 			//	{
 			//		return (2);
@@ -168,16 +216,16 @@ int twenty_one(char **map, t_fgr *fgr, int s, int y, int x)
 	int f;
 	int k;
 	printf( " fgr-fin=%d ", fgr->fgr_int);//maybe not 1/ 2??????
-	if (fgr->fgr_int == 29)//if x = 2 is filled??
-	{
+//	if (fgr->fgr_int == 29)//if x = 2 is filled??
+//	{
 		fgr->fgr_int  = (fgr->fgr_int << 2);// | 1; //if fgr is 2 points + x = start
 		printf(" mvdint=%d ", fgr->fgr_int);
-	}
-	else
-	{
-		fgr->fgr_int  = (fgr->fgr_int << 1);// | 1; //if fgr is 1 points + x = start
-		printf(" mvdint=%d ", fgr->fgr_int);
-	}
+//	}
+//	else
+//	{
+//		fgr->fgr_int  = (fgr->fgr_int << 1);// | 1; //if fgr is 1 points + x = start
+//		printf(" mvdint=%d ", fgr->fgr_int);
+//	}
 	while (map[y]/* [x]*/)
 	{
 		/*x = 2;*/x = 0;//x = -1;
@@ -189,25 +237,13 @@ int twenty_one(char **map, t_fgr *fgr, int s, int y, int x)
 				f = 0;
 				while (++k <= 12)
 				{
-					if (k == 0) //for 29
-					{
-						if ((fgr->fgr_int >> k) & 1)
-							if (( y + k / 4) < s) //+ x+2
-							if ( map[y + k/4 + 0][x + (k/* +2*/)%4  -2] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
-								{
-									++f;
-								}
-					}
-					else
-					{
 					if ((fgr->fgr_int >> k) & 1)//((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))/* ((fgr->fgr_int >> k) & 1)*/
-						if (( y + k / 4) < s)
-							if ((x + ((k % 4) )-2) < s)//if ((x + k % 4 ) < s)
-								if ( map[y + k/4 + 0][x + k%4  -2] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
+						if(map[y+ k /4 ][x + (k % 4) -2])//if (( y + k / 4) < s)
+							//if ((x + ((k % 4) )-2) < s)//if ((x + k % 4 ) < s)
+								if ( map[y + k/4][x + k%4  -2] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
 								{
 									++f;
 								}
-					}
 			//		if ((fgr->fgr_int >> k) & 1)//((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))/* ((fgr->fgr_int >> k) & 1)*/
 			//			if (( y + k / 4) < s)
 			//				if ((x + (k % 4) ) < s)//if ((x + k % 4 ) < s)
@@ -216,24 +252,9 @@ int twenty_one(char **map, t_fgr *fgr, int s, int y, int x)
 				//					++f;
 			//					}
 				}
-				if (f == 4)
-				{
-					k = -1;
-					while (++k <= 12)
-					{	////////////if (k>0)
-						if ((fgr->fgr_int >> k) & 1 && k == 0)
-						{
-							map[y + k/4  ][x+ ((k/*+2*/) %4) -2] = fgr->fgr_chr;//x+2 for 29
-						}
-						else
-						{
-						if ((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))//if (((fgr->fgr_int << k) & 1))//&& y + k /4 < s && x + k%4 < s
-							/* if*/// 	&& map[y + k/4][x + k%4] == '.')
-/*why norm fgs place??*/	map[y + k/4  ][x+ (k %4) -2] = fgr->fgr_chr;//map[y + k/4][x+ k%4] = fgr->fgr_chr;
-						}
-					}//x-1 if 29 else   //well -1;+2 have put Z_up but lso unrelated fgrs..
-					return (1);
-				}
+				if (f == 4)//call nplace))
+					return(4);//to: puton
+		//			}//x-1 if 29 else   //well -1;+2 have put Z_up but lso unrelated fgrs..
 			}
 			++x;
 		}
@@ -247,11 +268,7 @@ int			six(char **map, t_fgr *fgr, int s, int y, int x)//correct placement for no
 	int k;
 	printf( " fgr-fin=%d ", fgr->fgr_int);//maybe not 1/ 2??????
 	if (fgr->fgr_int == 29)//if x = 2 is filled??
-	{
 		return (twenty_one(map, fgr, s, 0 ,0));///
-	//	fgr->fgr_int  = (fgr->fgr_int << 2);// | 1; //if fgr is 2 points + x = start
-		printf(" mvdint=%d ", fgr->fgr_int);
-	}
 	else
 	{
 		fgr->fgr_int  = (fgr->fgr_int << 1);// | 1; //if fgr is 1 points + x = start
@@ -266,38 +283,16 @@ int			six(char **map, t_fgr *fgr, int s, int y, int x)//correct placement for no
 			{
 				k = -1;//k  =2;
 				f = 0;
-	/*			if (x < 2)
+				while (++k <= 12)
 				{
-					if (fgr->fgr_int == 29)//if x = 2 is filled??
-						fgr->fgr_int  = (fgr->fgr_int << 2) | 1; //if fgr is 2 points + x = start
-					else
-						fgr->fgr_int  = (fgr->fgr_int << 1) | 1; //if fgr is 1 points + x = start
-				}
-	*/			while (++k <= 12)
-				{
-			//		if (x >= 2 &&  k>0)//?????? s+=-1;0?
-		//			if (x < 2)// int == 29
-		//			{
-				//	if (x == 3)
-					if (k == 0) //for 29
-					{
-						if ((fgr->fgr_int >> k) & 1)
-							if (( y + k / 4) < s) //+ x+2
-							if ( map[y + k/4 + 0][x + (k/* +2*/)%4  -1] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
-								{
-									++f;
-								}
-					}
-					else
-					{
 					if ((fgr->fgr_int >> k) & 1)//((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))/* ((fgr->fgr_int >> k) & 1)*/
-						if (( y + k / 4) < s)
-							if ((x + ((k % 4) )-1) < s)//if ((x + k % 4 ) < s)
-								if ( map[y + k/4 + 0][x + k%4  -1] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
+						if ((x + (k % 4) - 1) >= 0) //if (( y + k / 4) < s)
+						//	if ((x + ((k % 4) )-1) < s)//if ((x + k % 4 ) < s)
+							if ( map[y + k /4])	//segs w/out it for some reason ;/
+								if ( map[y + k/4 ][x + k%4  -1] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
 								{
 									++f;
 								}
-					}
 			//		if ((fgr->fgr_int >> k) & 1)//((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))/* ((fgr->fgr_int >> k) & 1)*/
 			//			if (( y + k / 4) < s)
 			//				if ((x + (k % 4) ) < s)//if ((x + k % 4 ) < s)
@@ -307,23 +302,7 @@ int			six(char **map, t_fgr *fgr, int s, int y, int x)//correct placement for no
 			//					}
 				}
 				if (f == 4)
-				{
-					k = -1;
-					while (++k <= 12)
-					{	////////////if (k>0)
-						if ((fgr->fgr_int >> k) & 1 && k == 0)
-						{
-							map[y + k/4  ][x+ ((k/*+2*/) %4) -1] = fgr->fgr_chr;//x+2 for 29
-						}
-						else
-						{
-						if ((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))//if (((fgr->fgr_int << k) & 1))//&& y + k /4 < s && x + k%4 < s
-							/* if*/// 	&& map[y + k/4][x + k%4] == '.')
-/*why norm fgs place??*/	map[y + k/4  ][x+ (k %4) -1] = fgr->fgr_chr;//map[y + k/4][x+ k%4] = fgr->fgr_chr;
-						}
-					}//x-1 if 29 else   //well -1;+2 have put Z_up but lso unrelated fgrs..
-					return (1);
-				}
+					return (4);
 			}
 			++x;
 		}
@@ -340,10 +319,11 @@ int		putin(char **map, t_fgr *fgr, int s, int y, int x)/* puts 1 fgr in map */
 //	printf(" pur_s=%d ", s);
 	if (fgr->fgr_int == 281 || fgr->fgr_int == 401 || fgr->fgr_int == 57 || fgr->fgr_int == 27 || fgr->fgr_int == 153 || fgr->fgr_int == 29)
 		return(six(map, fgr, s, 0 ,0));//return (202);//six();
-	while (map[y]/* [x]*/)
+	y = -1;
+	while (map[++y]/* [x]*/)
 	{
-		x = 0;
-		while (map[y][x])
+		x = -1;
+		while (map[y][++x])
 		{
 			if (map[y][x] == '.')//when found space check in cucle fitting of the fgr
 			{
@@ -351,8 +331,6 @@ int		putin(char **map, t_fgr *fgr, int s, int y, int x)/* puts 1 fgr in map */
 				f = 0;
 				while (++k <= 12)
 				{
-	//				printf(" fint>>k) & 1=%d k=%d ", (fgr->fgr_int >> k) & 1, k);
-	//				printf(" x+k=%d y+k/4=%d\n", x + k % 4, y+ k /4);
 					if ((fgr->fgr_int >> k) & 1)//((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))/* ((fgr->fgr_int >> k) & 1)*/
 						if (( y + k / 4) < s)
 							if ((x + (k % 4) ) < s)//if ((x + k % 4 ) < s)
@@ -360,17 +338,12 @@ int		putin(char **map, t_fgr *fgr, int s, int y, int x)/* puts 1 fgr in map */
 								if ( map[y + k/4][x + k%4] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
 								{
 									++f;
-							//	if (f == 4)
 								}
 				}
 				if (f == 4)
-				{
 					return (4);
-				}
 			}
-			++x;
 		}
-		++y;
 	}
 	return (0);
 }
