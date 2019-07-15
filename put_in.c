@@ -221,17 +221,7 @@ int twenty_one(char **map, t_fgr *fgr, int y, int x)
 //	{
 		fgr->fgr_int  = (fgr->fgr_int << 2);// | 1; //if fgr is 2 points + x = start
 		printf(" mvdint=%d ", fgr->fgr_int);
-//	}
-//	else
-//	{
-//		fgr->fgr_int  = (fgr->fgr_int << 1);// | 1; //if fgr is 1 points + x = start
-//		printf(" mvdint=%d ", fgr->fgr_int);
-//	}
-	while (map[y]/* [x]*/)
-	{
-		/*x = 2;*/x = 0;//x = -1;
-		while (map[y][x])
-		{
+	if (map[y] && map[y][x])
 			if (map[y][x] == '.')//when found space check in cucle fitting of the fgr
 			{
 				k = -1;
@@ -245,22 +235,18 @@ int twenty_one(char **map, t_fgr *fgr, int y, int x)
 								{
 									++f;
 								}
-			//		if ((fgr->fgr_int >> k) & 1)//((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))/* ((fgr->fgr_int >> k) & 1)*/
+			//		if ((fgr->fgr_int >> k) & 1)//((fgr->fgr_int >> k) & 1)/*(fgr->fgr_int & (1 << k)) * ((fgr->fgr_int >> k) & 1) */
 			//			if (( y + k / 4) < s)
 			//				if ((x + (k % 4) ) < s)//if ((x + k % 4 ) < s)
 			///					if ( map[y + k/4 ][x + k%4 ] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
 				//				{
 				//					++f;
 			//					}
-				}
+				}//comment sec seg
 				if (f == 4)//call nplace))
 					return(4);//to: puton
 		//			}//x-1 if 29 else   //well -1;+2 have put Z_up but lso unrelated fgrs..
 			}
-			++x;
-		}
-		++y;
-	}
 	return (0);
 }
 int			six(char **map, t_fgr *fgr, int y, int x)//correct placement for non corn fgrs
@@ -274,17 +260,13 @@ int			six(char **map, t_fgr *fgr, int y, int x)//correct placement for non corn 
 	chi = fgr->fgr_int;
 	printf( " fgr-fin=%d ", fgr->fgr_int);//maybe not 1/ 2??????
 	if (fgr->fgr_int == 29 || fgr->fgr_int == 29 * 2 * 2)//if x = 2 is filled??
-		return (twenty_one(map, fgr, 0 ,0));///
+		return (twenty_one(map, fgr, y , x));///
 	else if (chi == 281 || chi == 401 || chi == 57 || chi == 27 || chi == 153)
 	{
 		fgr->fgr_int  = (fgr->fgr_int << 1);// | 1; //if fgr is 1 points + x = start
 		printf(" mvdint=%d ", fgr->fgr_int);
 	}
-	while (map[y]/* [x]*/)
-	{
-		/*x = 2;*/x = 0;//x = -1;
-		while (map[y][x])
-		{
+	if (map[y] && map[y][x])//mb rcrs?
 			if (map[y][x] == '.')//when found space check in cucle fitting of the fgr
 			{
 				k = -1;//k  =2;
@@ -311,10 +293,6 @@ int			six(char **map, t_fgr *fgr, int y, int x)//correct placement for non corn 
 				if (f == 4)
 					return (4);
 			}
-			++x;
-		}
-		++y;
-	}
 	return (0);
 }
 
@@ -330,7 +308,7 @@ int		putin(char **map, t_fgr *fgr, int y, int x)/* puts 1 fgr in map */
 	chi = fgr->fgr_int;
 	if (chi == 281 || chi == 401 || chi == 57 || chi == 27 || chi == 153 || chi == 29 ||
 		chi == 281*2 || chi == 401*2 || chi == 57*2 || chi == 27*2 || chi == 153*2 || chi == 29*2)
-		return(six(map, fgr, 0 ,0));//return (202);//six();
+		return(six(map, fgr, y , x));//return (202);//six();
 	y = -1;
 	while (map[++y]/* [x]*/)
 	{

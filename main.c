@@ -99,8 +99,8 @@ void		build_f(t_fgr *r)
 		{
 			++flg;
 			map = mapc(flg);//tmp?
-			if (flg > 4)
-				break;
+		//	if (flg > 4)
+		//		break;
 		}
 	}
 }
