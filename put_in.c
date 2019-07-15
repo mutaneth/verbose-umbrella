@@ -73,12 +73,12 @@ int			place(char **map, t_fgr *fgr, int y, int x)// fgr/fgrlst?
 		return (0);	
 }
 
-int			rcrs(char **min_map, t_fgr *fgrlst, int flg_s)//recursion /
+int			rcrs(char **min_map, t_fgr *fgrlst)//recursion /
 {
-	int t;
 	int i;
 	int x;
 	int y;
+	int t;
 	static int p = -1;
 //	if (putin() != 1)
 	{
@@ -92,14 +92,14 @@ int			rcrs(char **min_map, t_fgr *fgrlst, int flg_s)//recursion /
 //	min_map[0][1]='a';min_map[0][2]='a';//min_map[0][3]='a';
 	while (min_map[++y])
 	{
-		t = -1;
+		t = 0;
 	//	printf("\n mimap[y][t]=%c y=%d t=%d ", min_map[y][t + 1], y, t);
 		printf("\n minmap[%d]=%s ", y, min_map[y]);
-		while (min_map[y][++t])//if ( t < flg_s)
+		while (min_map[y][t])//if ( t < flg_s)
 		{
 			i = -1;
 			if (min_map[y][t] == '.')
-			if (putin(min_map, fgrlst, flg_s, y, t) == 4)//check putin in this coordinate!
+			if (putin(min_map, fgrlst, y, t) == 4)//check putin in this coordinate!
 			{
 				place(min_map, fgrlst, y, t);//t for x
 				printf(" -%s-", fgrlst->fgr_line);
@@ -110,7 +110,7 @@ int			rcrs(char **min_map, t_fgr *fgrlst, int flg_s)//recursion /
 		//			printf("\nmap[%d]%s|", i, min_map[i]);
 				if (fgrlst->next)
 				{
-					if (rcrs(min_map, fgrlst->next, flg_s))
+					if (rcrs(min_map, fgrlst->next))
 						return (1);
 				}
 		//		if (!(fgrlst->next))
@@ -121,6 +121,7 @@ int			rcrs(char **min_map, t_fgr *fgrlst, int flg_s)//recursion /
 			//	}
 				
 			}
+			++t;
 		}
 	}
 //	if (!(fgrlst->next))
@@ -152,9 +153,9 @@ int			rcrs(char **min_map, t_fgr *fgrlst, int flg_s)//recursion /
 		res = res >> minx;
 		r->fgr_int = res; printf(" res_int=%d ", r->fgr_int);
 	}*/
-		i = putin(min_map, fgrlst, flg_s, y, x);
+		i = putin(min_map, fgrlst, y, x);
 	if (i == 202)
-		six (min_map, fgrlst, flg_s, 0, 0);//map r s -changed??mod
+		six (min_map, fgrlst, 0, 0);//map r s -changed??mod
 	if (i == 4)
 	{
 		printf("i=4");
@@ -211,7 +212,7 @@ int			rcrs(char **min_map, t_fgr *fgrlst, int flg_s)//recursion /
 	return (0);
 }
 */
-int twenty_one(char **map, t_fgr *fgr, int s, int y, int x)
+int twenty_one(char **map, t_fgr *fgr, int y, int x)
 {
 	int f;
 	int k;
@@ -262,14 +263,19 @@ int twenty_one(char **map, t_fgr *fgr, int s, int y, int x)
 	}
 	return (0);
 }
-int			six(char **map, t_fgr *fgr, int s, int y, int x)//correct placement for non corn fgrs
+int			six(char **map, t_fgr *fgr, int y, int x)//correct placement for non corn fgrs
 {
 	int f;
 	int k;
+	int chi;
+	int size;
+
+	size = ft_strlen(map[0]);
+	chi = fgr->fgr_int;
 	printf( " fgr-fin=%d ", fgr->fgr_int);//maybe not 1/ 2??????
-	if (fgr->fgr_int == 29)//if x = 2 is filled??
-		return (twenty_one(map, fgr, s, 0 ,0));///
-	else
+	if (fgr->fgr_int == 29 || fgr->fgr_int == 29 * 2 * 2)//if x = 2 is filled??
+		return (twenty_one(map, fgr, 0 ,0));///
+	else if (chi == 281 || chi == 401 || chi == 57 || chi == 27 || chi == 153)
 	{
 		fgr->fgr_int  = (fgr->fgr_int << 1);// | 1; //if fgr is 1 points + x = start
 		printf(" mvdint=%d ", fgr->fgr_int);
@@ -289,6 +295,7 @@ int			six(char **map, t_fgr *fgr, int s, int y, int x)//correct placement for no
 						if ((x + (k % 4) - 1) >= 0) //if (( y + k / 4) < s)
 						//	if ((x + ((k % 4) )-1) < s)//if ((x + k % 4 ) < s)
 							if ( map[y + k /4])	//segs w/out it for some reason ;/
+								if ((y + k / 4) < size && (x + k % 4 -1) < size)
 								if ( map[y + k/4 ][x + k%4  -1] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
 								{
 									++f;
@@ -311,14 +318,19 @@ int			six(char **map, t_fgr *fgr, int s, int y, int x)//correct placement for no
 	return (0);
 }
 
-int		putin(char **map, t_fgr *fgr, int s, int y, int x)/* puts 1 fgr in map */
+int		putin(char **map, t_fgr *fgr, int y, int x)/* puts 1 fgr in map */
 {
 	int f;
 	int k;
+	int chi;
+	int size;
 
+	size = ft_strlen(map[0]);
 //	printf(" pur_s=%d ", s);
-	if (fgr->fgr_int == 281 || fgr->fgr_int == 401 || fgr->fgr_int == 57 || fgr->fgr_int == 27 || fgr->fgr_int == 153 || fgr->fgr_int == 29)
-		return(six(map, fgr, s, 0 ,0));//return (202);//six();
+	chi = fgr->fgr_int;
+	if (chi == 281 || chi == 401 || chi == 57 || chi == 27 || chi == 153 || chi == 29 ||
+		chi == 281*2 || chi == 401*2 || chi == 57*2 || chi == 27*2 || chi == 153*2 || chi == 29*2)
+		return(six(map, fgr, 0 ,0));//return (202);//six();
 	y = -1;
 	while (map[++y]/* [x]*/)
 	{
@@ -332,8 +344,8 @@ int		putin(char **map, t_fgr *fgr, int s, int y, int x)/* puts 1 fgr in map */
 				while (++k <= 12)
 				{
 					if ((fgr->fgr_int >> k) & 1)//((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))/* ((fgr->fgr_int >> k) & 1)*/
-						if (( y + k / 4) < s)
-							if ((x + (k % 4) ) < s)//if ((x + k % 4 ) < s)
+						if (y + k / 4 < size)//if (( map[y + k / 4]) )//< s)
+							if (x + k % 4 < size) //if ((map[y + k/4][x + (k % 4)] ) )//< s)//if ((x + k % 4 ) < s)
 					//			if (x >= 2)
 								if ( map[y + k/4][x + k%4] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
 								{

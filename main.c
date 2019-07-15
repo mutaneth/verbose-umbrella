@@ -92,12 +92,16 @@ void		build_f(t_fgr *r)
 //		six(map, r, flg);
 //	while (map[++i])
 //		printf("\nmap[%d]%s|", i, map[i]);
-	while (rcrs(map, r, flg) == 0)
-	{
-		++flg;
-		map = mapc(flg);//tmp?
-		if (flg > 4)
-			break;
+	if (map)
+	{	
+	//	if 
+		while (rcrs(map, r) == 0)
+		{
+			++flg;
+			map = mapc(flg);//tmp?
+			if (flg > 4)
+				break;
+		}
 	}
 }
 
