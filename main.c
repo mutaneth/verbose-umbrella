@@ -21,13 +21,12 @@ int 		read_max(int fd)
 	if ((ret = read(fd, buf, 546)) == 546 || ret == -1)
 	{
 		ft_putendl("error");//error message
-		return (0);
+		exit(0);
 	}
 	else
 	{
 		//ok actually write(1, "error msg\n", 10);//error message
 //		close(fd);
-		ft_putendl("error");
 		return (1);
 	}
 }
@@ -42,8 +41,9 @@ int			st(char **av/*int fd */)//return fd if ok st
 	{
 		printf(" readmax>26||-1 ");
 		close(fd);	/*added: check max read bytes */
-		return (0);//need free?? exit??
+		exit (0);//need free?? exit??
 	}
+	close(fd);//mb thats why
 	fd = open(av[1], O_RDONLY);
 /*	if (!(check_n(fd)))
 	{
@@ -61,7 +61,7 @@ void		build_f(t_fgr *r)
 {
 	int c;
 //	int s;
-//	int i;
+	int i;
 	char **map;
 //	t_fgr *fgr;
 	t_fgr *fgrlist;//???
@@ -83,19 +83,21 @@ void		build_f(t_fgr *r)
 	i=0; */	
 //	map = mapc(map, r);
 	//flg = 0;
-	int i = -1;
-	flg = 4;
+	i = -1;
+//	flg = 4;
 	map = mapc(flg);
-	if (putin(map, r, flg) == 4)//flg
-		place(map, r, 0,0);
+//	if (putin(map, r, flg) == 4)//flg
+//		place(map, r, 0,0);
 //	if (putin(map, r, flg) == 202)
 //		six(map, r, flg);
-	while (map[++i])
-		printf("\nmap[%d]%s|", i, map[i]);
-//	while (rcrs(map, r, flg) == 0)
+//	while (map[++i])
+//		printf("\nmap[%d]%s|", i, map[i]);
+	while (rcrs(map, r, flg) == 0)
 	{
-//		++flg;
-//		map = mapc(flg);//tmp?
+		++flg;
+		map = mapc(flg);//tmp?
+//		if (flg > 4)
+//			break;
 	}
 }
 
@@ -110,7 +112,7 @@ int			main(int ac, char **av)// huge main
 		ft_putendl("usage: ./fillit tetro_file!");//right use msg
 		return (1);
 	}
-	if (!(fd = st(av))) 
+	if (!(fd = st(av))) //?
 	{
 		printf(" fdd=%d ", fd);
 		return(1);

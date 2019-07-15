@@ -63,7 +63,7 @@ char			*ft_fgr_line(int fd)// malloc??
 //	if (fgrl) free(fgrl); //////////
 	if (i != 4 )
 		if ( gr != 1)//i=gnl?
-		return (NULL);
+		return (NULL);//this part needs to be fixed
 		printf(" fgrl=%s\n", fgrl);
 	return (fgrl);
 }
@@ -160,7 +160,7 @@ void	fgr_push_back(t_fgr **begin_list, char *data, char i)
 {
 	t_fgr	*tmp;
 
-	printf(" push_back1: %d ", (int)i);
+	printf(" push_back1: %c ", /* (int)*/i);
 	if (!(*begin_list))
 	{
 		*begin_list = fgr_new(i, data);
@@ -197,7 +197,7 @@ t_fgr		*after_line(int fd)/* just check \n and \0 yuhoo and fill the fgr*/
 	while ((line = ft_fgr_line(fd)) && ++i < 'Z')
 	{
 	//	check = read(fd, buf, 1);
-		printf(" chred=%d ", check);
+//		printf(" chred=%d ", check);
 		if (((check = read(fd, buf, 1)) == 1))
 			if (buf[0] != '\n')
 			{
@@ -205,12 +205,12 @@ t_fgr		*after_line(int fd)/* just check \n and \0 yuhoo and fill the fgr*/
 				return (NULL);// free
 			}
 		buf[1] = '\0';
-		printf(" checl=%d ", check);
+//		printf(" checl=%d ", check);
 		printf(" buf=%s-", buf);
 		if (check == 0)
 		{
 			fgr_push_back(&fgr, line, (char)i);
-	//		break ;//?????????
+			break ;//????????? last fgr
 		}
 		printf("i=%c-", (char)i);
 		if (check)
@@ -280,7 +280,7 @@ int		ft_fgr_int(char *fgrl)/* takes fgrl and turns it to int using bits logic af
 		if (frst != -1)
 			fgr_int |= (fgrl[i] - '0') << (i - frst);
 	//	ft_print_bits(fgr_int);
-		printf("f_i=%d ", fgr_int);
+	//	printf("f_i=%d ", fgr_int);
 	}
 	return (fgr_int);
 }

@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "fillit.h"
-int place(char **map, t_fgr *fgr, int y, int x)// fgr/fgrlst?
+
+int			place(char **map, t_fgr *fgr, int y, int x)// fgr/fgrlst?
 {
 	int k;
 
@@ -31,10 +32,10 @@ int			rcrs(char **min_map, t_fgr *fgrlst, int flg_s)//recursion /
 	int i;
 	int x;
 	int y;
-
+	static int p = -1;
 //	if (putin() != 1)
 	{
-		printf("not placed");
+		printf("not placed%d", ++p);
 	//	mapc();increase map
 	}
 	y = -1;
@@ -45,21 +46,37 @@ int			rcrs(char **min_map, t_fgr *fgrlst, int flg_s)//recursion /
 	while (min_map[++y])
 	{
 		t = -1;
-		printf("\n mimap[y][t]=%c y=%d t=%d ", min_map[y][t], y, t);
+	//	printf("\n mimap[y][t]=%c y=%d t=%d ", min_map[y][t + 1], y, t);
+		printf("\n minmap[%d]=%s ", y, min_map[y]);
 		while (min_map[y][++t])//if ( t < flg_s)
 		{
 			i = -1;
-//			while (min_map[++i])
-//				printf("\nmap[%d]%s|", i, min_map[i]);
-			if (putin(min_map, fgrlst, flg_s) == 4)
+			if (min_map[y][t] == '.')
+			if (putin(min_map, fgrlst, flg_s, y, t) == 4)//check putin in this coordinate!
 			{
 				place(min_map, fgrlst, y, t);//t for x
+				printf(" -%s-", fgrlst->fgr_line);
 				if (fgrlst->next)
+					printf("\n , fgrlst->next\n");
+				while (min_map[++i])
+					printf("\nmap[%d]%s|", i, min_map[i]);
+				if (fgrlst->next)
+				{
 					if (rcrs(min_map, fgrlst->next, flg_s))
 						return (1);
+				}
+				if (!(fgrlst->next))
+					return (2);//break;
+			//	else
+			//	{
+			//		return (2);
+			//	}
+				
 			}
 		}
 	}
+//	if (!(fgrlst->next))
+//		return (2);
 	return (0);
 	//six (map, r, s);
 /*	if (r->fgr_int == 29)
@@ -87,9 +104,9 @@ int			rcrs(char **min_map, t_fgr *fgrlst, int flg_s)//recursion /
 		res = res >> minx;
 		r->fgr_int = res; printf(" res_int=%d ", r->fgr_int);
 	}*/
-		i = putin(min_map, fgrlst, flg_s);
+		i = putin(min_map, fgrlst, flg_s, y, x);
 	if (i == 202)
-		six (min_map, fgrlst, flg_s);//map r s -changed??mod
+		six (min_map, fgrlst, flg_s, 0, 0);//map r s -changed??mod
 	if (i == 4)
 	{
 		printf("i=4");
@@ -146,13 +163,10 @@ int			rcrs(char **min_map, t_fgr *fgrlst, int flg_s)//recursion /
 	return (0);
 }
 */
-int twenty_one(char **map, t_fgr *fgr, int s)
+int twenty_one(char **map, t_fgr *fgr, int s, int y, int x)
 {
-		int x;
-	int y;
 	int f;
 	int k;
-	int d;
 	printf( " fgr-fin=%d ", fgr->fgr_int);//maybe not 1/ 2??????
 	if (fgr->fgr_int == 29)//if x = 2 is filled??
 	{
@@ -164,35 +178,17 @@ int twenty_one(char **map, t_fgr *fgr, int s)
 		fgr->fgr_int  = (fgr->fgr_int << 1);// | 1; //if fgr is 1 points + x = start
 		printf(" mvdint=%d ", fgr->fgr_int);
 	}
-//	ft_print_bits(fgr->fgr_int);
-	y = -1; 	x = 0;/*??*/ k = 0;k=2;
-	y = 0;
-	//fgr->fgr_int = rev_bit(fgr->fgr_int);
 	while (map[y]/* [x]*/)
 	{
-		printf(" newln---");
 		/*x = 2;*/x = 0;//x = -1;
 		while (map[y][x])
 		{
 			if (map[y][x] == '.')//when found space check in cucle fitting of the fgr
 			{
-				k = -1;//k  =2;
+				k = -1;
 				f = 0;
-				d = 2 - 1;
-	/*			if (x < 2)
+				while (++k <= 12)
 				{
-					if (fgr->fgr_int == 29)//if x = 2 is filled??
-						fgr->fgr_int  = (fgr->fgr_int << 2) | 1; //if fgr is 2 points + x = start
-					else
-						fgr->fgr_int  = (fgr->fgr_int << 1) | 1; //if fgr is 1 points + x = start
-				}
-	*/			while (++k <= 12)
-				{
-			//		if (x >= 2 &&  k>0)//?????? s+=-1;0?
-		//			if (x < 2)// int == 29
-		//			{
-					d = 0;
-				//	if (x == 3)
 					if (k == 0) //for 29
 					{
 						if ((fgr->fgr_int >> k) & 1)
@@ -223,7 +219,6 @@ int twenty_one(char **map, t_fgr *fgr, int s)
 				if (f == 4)
 				{
 					k = -1;
-					d = 2 - 1;
 					while (++k <= 12)
 					{	////////////if (k>0)
 						if ((fgr->fgr_int >> k) & 1 && k == 0)
@@ -246,17 +241,14 @@ int twenty_one(char **map, t_fgr *fgr, int s)
 	}
 	return (0);
 }
-int six(char **map, t_fgr *fgr, int s)//correct placement for non corn fgrs
+int			six(char **map, t_fgr *fgr, int s, int y, int x)//correct placement for non corn fgrs
 {
-	int x;
-	int y;
 	int f;
 	int k;
-	int d;
 	printf( " fgr-fin=%d ", fgr->fgr_int);//maybe not 1/ 2??????
 	if (fgr->fgr_int == 29)//if x = 2 is filled??
 	{
-		return (twenty_one(map, fgr, s));///
+		return (twenty_one(map, fgr, s, 0 ,0));///
 	//	fgr->fgr_int  = (fgr->fgr_int << 2);// | 1; //if fgr is 2 points + x = start
 		printf(" mvdint=%d ", fgr->fgr_int);
 	}
@@ -265,13 +257,8 @@ int six(char **map, t_fgr *fgr, int s)//correct placement for non corn fgrs
 		fgr->fgr_int  = (fgr->fgr_int << 1);// | 1; //if fgr is 1 points + x = start
 		printf(" mvdint=%d ", fgr->fgr_int);
 	}
-//	ft_print_bits(fgr->fgr_int);
-	y = -1; 	x = 0;/*??*/ k = 0;k=2;
-	y = 0;
-	//fgr->fgr_int = rev_bit(fgr->fgr_int);
 	while (map[y]/* [x]*/)
 	{
-		printf(" newln---");
 		/*x = 2;*/x = 0;//x = -1;
 		while (map[y][x])
 		{
@@ -279,7 +266,6 @@ int six(char **map, t_fgr *fgr, int s)//correct placement for non corn fgrs
 			{
 				k = -1;//k  =2;
 				f = 0;
-				d = 2 - 1;
 	/*			if (x < 2)
 				{
 					if (fgr->fgr_int == 29)//if x = 2 is filled??
@@ -292,7 +278,6 @@ int six(char **map, t_fgr *fgr, int s)//correct placement for non corn fgrs
 			//		if (x >= 2 &&  k>0)//?????? s+=-1;0?
 		//			if (x < 2)// int == 29
 		//			{
-					d = 0;
 				//	if (x == 3)
 					if (k == 0) //for 29
 					{
@@ -324,7 +309,6 @@ int six(char **map, t_fgr *fgr, int s)//correct placement for non corn fgrs
 				if (f == 4)
 				{
 					k = -1;
-					d = 2 - 1;
 					while (++k <= 12)
 					{	////////////if (k>0)
 						if ((fgr->fgr_int >> k) & 1 && k == 0)
@@ -348,28 +332,17 @@ int six(char **map, t_fgr *fgr, int s)//correct placement for non corn fgrs
 	return (0);
 }
 
-int		putin(char **map, t_fgr *fgr, int s)/* puts 1 fgr in map */
+int		putin(char **map, t_fgr *fgr, int s, int y, int x)/* puts 1 fgr in map */
 {
-	int x;
-	int y;
 	int f;
 	int k;
-//	int d;
 
-	printf(" pur_s=%d ", s);
-//	fgr->fgr_int  = (fgr->fgr_int << 2) | 1;
-//	ft_print_bits(fgr->fgr_int);
+//	printf(" pur_s=%d ", s);
 	if (fgr->fgr_int == 281 || fgr->fgr_int == 401 || fgr->fgr_int == 57 || fgr->fgr_int == 27 || fgr->fgr_int == 153 || fgr->fgr_int == 29)
-		return(six(map, fgr, s));//return (202);//six();
-	y = -1; 	x = 0;/*??*/ k = 0;k=2;
-	printf("knumofbit=%d ik_=%d ", k,(fgr->fgr_int >> 2) & 1u);//this shows 1 or no in the >>place
-	printf("bitsval=%d ", (fgr->fgr_int & (1u << 2)));//and this one - the value externally
-	y = 0;
-	//fgr->fgr_int = rev_bit(fgr->fgr_int);
+		return(six(map, fgr, s, 0 ,0));//return (202);//six();
 	while (map[y]/* [x]*/)
 	{
-		printf(" newln---");
-		/*x = 2;*/x = 0;//x = -1;
+		x = 0;
 		while (map[y][x])
 		{
 			if (map[y][x] == '.')//when found space check in cucle fitting of the fgr
