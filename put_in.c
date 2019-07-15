@@ -92,10 +92,9 @@ int			rcrs(char **min_map, t_fgr *fgrlst)//recursion /
 //	min_map[0][1]='a';min_map[0][2]='a';//min_map[0][3]='a';
 	while (min_map[++y])
 	{
-		t = 0;
+		t = -1;
 	//	printf("\n mimap[y][t]=%c y=%d t=%d ", min_map[y][t + 1], y, t);
-		printf("\n minmap[%d]=%s ", y, min_map[y]);
-		while (min_map[y][t])//if ( t < flg_s)
+		while (min_map[y][++t])//if ( t < flg_s)
 		{
 			i = -1;
 			if (min_map[y][t] == '.')
@@ -113,15 +112,13 @@ int			rcrs(char **min_map, t_fgr *fgrlst)//recursion /
 					if (rcrs(min_map, fgrlst->next))
 						return (1);
 				}
-		//		if (!(fgrlst->next))
-		//			return (2);//break;
+				if (!(fgrlst->next))
+					return (2);//break;
 			//	else
 			//	{
 			//		return (2);
 			//	}
-				
 			}
-			++t;
 		}
 	}
 //	if (!(fgrlst->next))
@@ -327,7 +324,7 @@ int		putin(char **map, t_fgr *fgr, int y, int x)/* puts 1 fgr in map */
 					//			if (x >= 2)
 								if ( map[y + k/4][x + k%4] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
 								{
-									++f;
+									++f;//expresion has occured????????mb stack
 								}
 				}
 				if (f == 4)
