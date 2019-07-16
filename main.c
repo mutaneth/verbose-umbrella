@@ -6,7 +6,7 @@
 /*   By: ddratini <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 16:33:24 by ddratini          #+#    #+#             */
-/*   Updated: 2019/07/10 18:10:04 by ddratini         ###   ########.fr       */
+/*   Updated: 2019/07/16 23:07:39 by ddratini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ int			st(char **av/*int fd */)//return fd if ok st
 	int	fd;
 
 	fd = open(av[1], O_RDONLY);
-	printf("1)fd_st=%d ", fd);
+///	printf("1)fd_st=%d ", fd);
 	if (read_max(fd) == 0)
 	{
-		printf(" readmax>26||-1 ");
+///		printf(" readmax>26||-1 ");
 		close(fd);	/*added: check max read bytes */
 		exit (0);//need free?? exit??
 	}
@@ -53,7 +53,7 @@ int			st(char **av/*int fd */)//return fd if ok st
 		return (0);
 	}*/
 	fd = open(av[1], O_RDONLY);
-	printf("3)op=%d",fd);
+///	printf("3)op=%d",fd);
 	return (fd);
 }
 
@@ -120,10 +120,10 @@ int			main(int ac, char **av)// huge main
 	}
 	if (!(fd = st(av))) //?
 	{
-		printf(" fdd=%d ", fd);
+///		printf(" fdd=%d ", fd);
 		return(1);
 	}
-	printf(" fdmain=%d ", fd);
+///	printf(" fdmain=%d ", fd);
 	if ((r = mega_fgr_val(fd)) == NULL)/*st();*/ //r = mega_fgr_val(st(av));//r = mega_fgr_val(fd);
 	{
 		ft_putendl("error-inv");//close (fd); ? //fre??ext
@@ -131,7 +131,7 @@ int			main(int ac, char **av)// huge main
 	}
 	else
 	{
-		printf("mgfgrvl-ok ");
+///		printf("mgfgrvl-ok ");
 		tmp = r;
 /*		while (tmp)
 		{
