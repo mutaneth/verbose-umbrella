@@ -97,7 +97,9 @@ void		build_f(t_fgr *r)
 	//	if 
 		while (rcrs(map, r) == 0)
 		{
+			map_free(map, flg);
 			++flg;
+	//		/* ft_cleanmem(map);*/ map_free(map, c);//free(map);
 			map = mapc(flg);//tmp?
 		//	if (flg > 4)
 		//		break;

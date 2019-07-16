@@ -48,11 +48,11 @@ char	**mapc(int flg)//, int c_fg)/* creates the minimal start map*/
 
 	i = -1;//free?
 	if (!(map = (char**)malloc((flg + 1) * sizeof(char *))))
-		return (NULL);
+		return (NULL);//free
 	while (++i < flg)
 	{
 		if (!(map[i] = (char*)malloc(sizeof(char) * (flg + 1))))
-			return (NULL);
+			return (NULL);//free
 		ft_memset(map[i], '.', flg);
 		map[i][flg] = '\0';
 	//	printf("%s\n", map[i]);
@@ -63,19 +63,19 @@ char	**mapc(int flg)//, int c_fg)/* creates the minimal start map*/
 	return (map);
 }
 
-/* void	map_free(char **map, t_fgr *fgrlst)// huita
+ void	map_free(char **map, int fgc)//t_fgr *fgrlst)// huita
 {
 	int i;
 
 	i = -1;
-	if (**map)
+	if (map)
 	{
-		while (++i < (4 * fgr_count(fgrlst)))
+		while (++i < fgc )
 			free(map[i]);
-		free(*map);
-		free(**map);
+	//	free(*map);
+		free(map);
 	}
-} */
+}
 
 /* char	**mapc(int s)
 {

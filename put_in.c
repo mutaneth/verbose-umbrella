@@ -6,16 +6,38 @@
 /*   By: hfalmer <hfalmer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 22:42:11 by hfalmer           #+#    #+#             */
-/*   Updated: 2019/07/10 19:24:40 by ddratini         ###   ########.fr       */
+/*   Updated: 2019/07/16 18:21:11 by ddratini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+
 void print_map(char **map)
 {
-	int u;u = -1;
+	int u;
+	u = -1;
 	while (map[++u])
-		printf("\nmap[%d]%s|", u, map[u]);
+		printf("\nmap[u]%s|u=%d", map[u], u);
+}
+
+void		dot(char **map, t_fgr *fi)
+{
+	int y;
+	int x;
+	char bu;
+
+	bu = fi->fgr_chr;
+	y = -1;
+	while (map[++y])
+	{
+		x = -1;
+		while (map[y][++x])
+		{
+			if (map[y][x] == bu)
+				map[y][x] = '.';
+		}
+		
+	}
 }
 
 int			place(char **map, t_fgr *fgr, int y, int x)// fgr/fgrlst?
@@ -73,13 +95,22 @@ int			place(char **map, t_fgr *fgr, int y, int x)// fgr/fgrlst?
 		return (0);	
 }
 
-int			rcrs(char **min_map, t_fgr *fgrlst)//recursion /
+int			rcrs(char **min_map, t_fgr *fgrlst )//recursion /
 {
 	int i;
 	int x;
 	int y;
 	int t;
 	static int p = -1;
+	t_fgr *emp;
+	int chpl;
+
+	emp = fgrlst;
+//	while (emp->next)
+//	{
+//		emp = emp->next;
+//	}
+//	emp->fgr_int = 0;
 //	if (putin() != 1)
 	{
 		printf("not placed%d", ++p);
@@ -97,10 +128,11 @@ int			rcrs(char **min_map, t_fgr *fgrlst)//recursion /
 		while (min_map[y][++t])//if ( t < flg_s)
 		{
 			i = -1;
+			chpl = 0;
 			if (min_map[y][t] == '.')
 			if (putin(min_map, fgrlst, y, t) == 4)//check putin in this coordinate!
 			{
-				place(min_map, fgrlst, y, t);//t for x
+				chpl = place(min_map, fgrlst, y, t);//t for x
 				printf(" -%s-", fgrlst->fgr_line);
 				if (fgrlst->next)
 					printf("\n , fgrlst->next\n");
@@ -109,9 +141,12 @@ int			rcrs(char **min_map, t_fgr *fgrlst)//recursion /
 		//			printf("\nmap[%d]%s|", i, min_map[i]);
 				if (fgrlst->next)
 				{
-					if (rcrs(min_map, fgrlst->next))
+					if (rcrs(min_map, fgrlst->next))//goes outta here
 						return (1);
-				}
+					dot(min_map, fgrlst);
+					printf(" DOT ");
+			//		rcrs(min_map, emp);//fgrlst);//?
+				}///place(min_map, fgrlst, y, t);
 				if (!(fgrlst->next))
 					return (2);//break;
 			//	else
@@ -119,10 +154,20 @@ int			rcrs(char **min_map, t_fgr *fgrlst)//recursion /
 			//		return (2);
 			//	}
 			}
+	//		if (chpl)
+	//			if (fgrlst->next)
+				{
+	//				if (rcrs(min_map, fgrlst->next))//goes outta here
+	//					return (1);
+				}
+		//	else//if cannot be placed - clean -1 fgr - move -1 - try to place 0
+		//	{
+		//		/* code */
+		//	}
+			
+			
 		}
 	}
-//	if (!(fgrlst->next))
-//		return (2);
 	return (0);
 	//six (map, r, s);
 /*	if (r->fgr_int == 29)
@@ -213,6 +258,8 @@ int twenty_one(char **map, t_fgr *fgr, int y, int x)
 {
 	int f;
 	int k;
+	if (!fgr)
+		return(0);
 	printf( " fgr-fin=%d ", fgr->fgr_int);//maybe not 1/ 2??????
 //	if (fgr->fgr_int == 29)//if x = 2 is filled??
 //	{
@@ -253,7 +300,8 @@ int			six(char **map, t_fgr *fgr, int y, int x)//correct placement for non corn 
 	int chi;
 	int size;
 
-	size = ft_strlen(map[0]);
+	if (!fgr)
+		return(0);
 	chi = fgr->fgr_int;
 	printf( " fgr-fin=%d ", fgr->fgr_int);//maybe not 1/ 2??????
 	if (fgr->fgr_int == 29 || fgr->fgr_int == 29 * 2 * 2)//if x = 2 is filled??
@@ -263,6 +311,7 @@ int			six(char **map, t_fgr *fgr, int y, int x)//correct placement for non corn 
 		fgr->fgr_int  = (fgr->fgr_int << 1);// | 1; //if fgr is 1 points + x = start
 		printf(" mvdint=%d ", fgr->fgr_int);
 	}
+	size = ft_strlen(map[0]);
 	if (map[y] && map[y][x])//mb rcrs?
 			if (map[y][x] == '.')//when found space check in cucle fitting of the fgr
 			{
@@ -300,18 +349,13 @@ int		putin(char **map, t_fgr *fgr, int y, int x)/* puts 1 fgr in map */
 	int chi;
 	int size;
 
-	size = ft_strlen(map[0]);
 //	printf(" pur_s=%d ", s);
 	chi = fgr->fgr_int;
 	if (chi == 281 || chi == 401 || chi == 57 || chi == 27 || chi == 153 || chi == 29 ||
 		chi == 281*2 || chi == 401*2 || chi == 57*2 || chi == 27*2 || chi == 153*2 || chi == 29*2)
 		return(six(map, fgr, y , x));//return (202);//six();
-	y = -1;
-	while (map[++y]/* [x]*/)
-	{
-		x = -1;
-		while (map[y][++x])
-		{
+	size = ft_strlen(map[0]);
+		if (map[y] && map[y][x])
 			if (map[y][x] == '.')//when found space check in cucle fitting of the fgr
 			{
 				k = -1;//k  =2;
@@ -330,7 +374,5 @@ int		putin(char **map, t_fgr *fgr, int y, int x)/* puts 1 fgr in map */
 				if (f == 4)
 					return (4);
 			}
-		}
-	}
 	return (0);
 }
