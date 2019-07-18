@@ -17,7 +17,7 @@ void print_map(char **map)
 	int u;
 	u = -1;
 	while (map[++u])
-		printf("\nmap[u]%s|u=%d", map[u], u);
+		printf("%s\n", map[u]);//printf("\nmap[u]%s|u=%d", map[u], u);
 }
 
 void		dot(char **map, t_fgr *fi)
@@ -67,7 +67,7 @@ int			place(char **map, t_fgr *fgr, int y, int x)// fgr/fgrlst?
 		else
 			return (0);
 	}
-	if (chi == 29 )
+	if (chi == 29 || chi == 29 * 4)
 	{
 		while (++k <= 12)
 		{
@@ -95,7 +95,7 @@ int			place(char **map, t_fgr *fgr, int y, int x)// fgr/fgrlst?
 		return (0);	
 }
 
-int			rcrs(char **min_map, t_fgr *fgrlst )//recursion /
+int			rcrs(char ***minmap, t_fgr *fgrlst )//recursion /
 {
 	int i;
 	int x;
@@ -104,7 +104,8 @@ int			rcrs(char **min_map, t_fgr *fgrlst )//recursion /
 	static int p; p = -1;
 	t_fgr *emp;
 	int chpl;
-
+	char **min_map;
+	min_map = *minmap;
 	emp = fgrlst;
 //	while (emp->next)
 //	{
@@ -141,7 +142,7 @@ int			rcrs(char **min_map, t_fgr *fgrlst )//recursion /
 		//			printf("\nmap[%d]%s|", i, min_map[i]);
 				if (fgrlst->next)
 				{
-					if (rcrs(min_map, fgrlst->next))//goes outta here
+					if (rcrs(&min_map, fgrlst->next))//goes outta here
 						return (1);
 					dot(min_map, fgrlst);
 //					printf(" DOT ");
@@ -168,7 +169,7 @@ int			rcrs(char **min_map, t_fgr *fgrlst )//recursion /
 			
 		}
 	}
-	print_map(min_map);
+//	print_map(*min_map);
 	return (0);
 	//six (map, r, s);
 /*	if (r->fgr_int == 29)
@@ -259,13 +260,17 @@ int twenty_one(char **map, t_fgr *fgr, int y, int x)
 {
 	int f;
 	int k;
+	int size;
+
 	if (!fgr)
 		return(0);
-///	printf( " fgr-fin=%d ", fgr->fgr_int);//maybe not 1/ 2??????
-//	if (fgr->fgr_int == 29)//if x = 2 is filled??
-//	{
+//	printf( " fgr-fin=%d ", fgr->fgr_int);//maybe not 1/ 2??????
+	if (fgr->fgr_int == 29)//if x = 2 is filled??
+	{
 		fgr->fgr_int  = (fgr->fgr_int << 2);// | 1; //if fgr is 2 points + x = start
-	//	printf(" mvdint=%d ", fgr->fgr_int);
+//		printf(" mvdint=%d ", fgr->fgr_int);
+	}
+	size = ft_strlen(map[0]);
 	if (map[y] && map[y][x])
 			if (map[y][x] == '.')//when found space check in cucle fitting of the fgr
 			{
@@ -274,7 +279,8 @@ int twenty_one(char **map, t_fgr *fgr, int y, int x)
 				while (++k <= 12)
 				{
 					if ((fgr->fgr_int >> k) & 1)//((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))/* ((fgr->fgr_int >> k) & 1)*/
-						if(map[y+ k /4 ][x + (k % 4) -2])//if (( y + k / 4) < s)
+						if(y+k/4 < size)//if(map[y+ k /4 ][x + (k % 4) -2])//if (( y + k / 4) < s)
+						if((x + (k % 4) -2) >= 0 && (x + (k % 4) -2) < size)
 							//if ((x + ((k % 4) )-2) < s)//if ((x + k % 4 ) < s)
 								if ( map[y + k/4][x + k%4  -2] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
 								{
@@ -353,7 +359,7 @@ int		putin(char **map, t_fgr *fgr, int y, int x)/* puts 1 fgr in map */
 //	printf(" pur_s=%d ", s);
 	chi = fgr->fgr_int;
 	if (chi == 281 || chi == 401 || chi == 57 || chi == 27 || chi == 153 || chi == 29 ||
-		chi == 281*2 || chi == 401*2 || chi == 57*2 || chi == 27*2 || chi == 153*2 || chi == 29*2)
+		chi == 281*2 || chi == 401*2 || chi == 57*2 || chi == 27*2 || chi == 153*2 || chi == 29*2*2)
 		return(six(map, fgr, y , x));//return (202);//six();
 	size = ft_strlen(map[0]);
 		if (map[y] && map[y][x])

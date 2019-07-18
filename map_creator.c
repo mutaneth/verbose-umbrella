@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_creator.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hfalmer <hfalmer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ddratini <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/23 03:40:51 by hfalmer           #+#    #+#             */
-/*   Updated: 2019/07/16 23:08:09 by ddratini         ###   ########.fr       */
+/*   Created: 2019/07/16 23:52:31 by ddratini          #+#    #+#             */
+/*   Updated: 2019/07/16 23:52:35 by ddratini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 	return ();
 }*/
 
-int		fgr_count(t_fgr *fgrlst)/* just count fgrs*/
+int		fgr_count(t_fgr *fgrlst)
 {
 	int		c;
 	t_fgr	*tmpl;
@@ -55,15 +55,13 @@ char	**mapc(int flg)//, int c_fg)/* creates the minimal start map*/
 			return (NULL);//free
 		ft_memset(map[i], '.', flg);
 		map[i][flg] = '\0';
-	//	printf("%s\n", map[i]);
 	}
 	map[i] = 0;
 	i = -1;
-//	while (map[++i]) //			printf("%s\n", map[i]); //	while (++i < s)
 	return (map);
 }
 
- void	map_free(char **map, int fgc)//t_fgr *fgrlst)// huita
+ void	map_free(char **map, int fgc)//t_fgr *fgrlst)
 {
 	int i;
 
@@ -91,12 +89,5 @@ char	**mapc(int flg)//, int c_fg)/* creates the minimal start map*/
 			map[i][j] = '.';
 	}
 	return (map);
-}
-
-char	**map_creator(t_fgr *fgrlst) variant s kuchei malloc
-{
-	char	**map;
-
-
 }
 */
