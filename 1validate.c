@@ -22,7 +22,6 @@ char			*ft_fgr_line(int fd)
 
 	i = -1;
 	fgrl = ft_strnew(0);//"";
-//	tfl = fgrl;
 	while (++i < 4 && (gr = get_next_line(fd, &tmp)) == 1)
 	{
 		if (!tmp)
@@ -31,10 +30,7 @@ char			*ft_fgr_line(int fd)
 		}
 		if (ft_strlen(tmp) == 4)
 		{
-		//	if (fgrl == NULL)
-		//	fgrl = ft_strnew(0);
 			tfl = ft_strrejoin(fgrl, tmp, 0);
-		//	free(fgrl);
 			fgrl = tfl;
 		}
 		else
@@ -69,7 +65,7 @@ t_fgr			*fgr_new(char fgr_chr, char *line)/* creates new node in t_fgr. chr star
 	return (fgr);
 }
 
-void	fgr_push_back(t_fgr **begin_list, char *data, char i)
+void			fgr_push_back(t_fgr **begin_list, char *data, char i)
 {
 	t_fgr	*tmp;
 
@@ -84,11 +80,11 @@ void	fgr_push_back(t_fgr **begin_list, char *data, char i)
 		tmp = tmp->next;
 	}
 	tmp->next = fgr_new(i, data);
-	//free(tmp);//??
-//	return (*begin_list);
+	//free(tmp);//?? //	return (*begin_list);
 }
 
-t_fgr		*after_line(int fd, char **line)/* just check \n and \0 yuhoo and fill the fgr*/
+t_fgr			*after_line(int fd, char **line)
+/* just check \n and \0 yuhoo and fill the fgr*/
 {
 //	char	*tline;
 	int		i;
@@ -128,24 +124,7 @@ t_fgr		*after_line(int fd, char **line)/* just check \n and \0 yuhoo and fill th
 	return (fgr);
 }
 
-int			check_n(int fd)
-{
-	char buf[22];
-	int ret;
-
-	while ((ret = read(fd, buf, 21)) == 21)
-	{
-		buf[21] = '\0';
-		if (buf[20] && buf[20] != '\n')
-			return(0);/* no \n */
-    }
-    if (ret == 20)
-        return (1);
-    else
-        return(0);/* bad fgr */
-}
-
-int			fgrl_xtra_01(char *fgr_line)/* checks if this line is valid and change symbols to 1 or 0. if it's not val, just frees*/
+int				fgrl_xtra_01(char *fgr_line)/* checks if this line is valid and change symbols to 1 or 0. if it's not val, just frees*/
 {
 	int	i;
 	int	l;
@@ -171,7 +150,7 @@ int			fgrl_xtra_01(char *fgr_line)/* checks if this line is valid and change sym
 	return (1);
 }
 
-int			ft_fgr_int(char *fgrl)/* takes fgrl and turns it to int using bits logic after fgrl_val*/
+int				ft_fgr_int(char *fgrl)/* takes fgrl and turns it to int using bits logic after fgrl_val*/
 {
 	int	fgr_int;
 	int	frst;
@@ -190,7 +169,7 @@ int			ft_fgr_int(char *fgrl)/* takes fgrl and turns it to int using bits logic a
 	return (fgr_int);
 }
 
-int			int_check(t_fgr *fgr)
+int				int_check(t_fgr *fgr)
 {
 	t_fgr	*tmp;
 	int		f;

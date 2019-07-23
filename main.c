@@ -28,6 +28,23 @@ int			read_max(int fd)
 	}
 }
 
+int			check_n(int fd)
+{
+	char	buf[22];
+	int		ret;
+
+	while ((ret = read(fd, buf, 21)) == 21)
+	{
+		buf[21] = '\0';
+		if (buf[20] && buf[20] != '\n')
+			return (0);/* no \n */
+	}
+	if (ret == 20)
+		return (1);
+	else
+		return (0);/* bad fgr */
+}
+
 int			st(char **av/*int fd */)//return fd if ok st
 {
 	int	fd;
