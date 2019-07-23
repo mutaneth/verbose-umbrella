@@ -12,23 +12,31 @@
 
 #include "fillit.h"
 //	GNL returns 0 after 1 f read *****************
-char			*ft_fgr_line(int fd)// malloc??
+char			*ft_fgr_line(int fd)
 {
-	int i;
-	char *tmp;
-	char *fgrl;
-	int gr;
+	int		i;
+	char	*tmp;
+	char	*fgrl;
+	int		gr;
+	char	*tfl;
 
 	i = -1;
-	fgrl = "";
-	while(++i < 4 && (gr =get_next_line(fd, &tmp)) == 1)
+	fgrl = ft_strnew(0);//"";
+//	tfl = fgrl;
+	while (++i < 4 && (gr = get_next_line(fd, &tmp)) == 1)
 	{
 		if (!tmp)
 		{
 			return (NULL);
 		}
 		if (ft_strlen(tmp) == 4)
-			fgrl = ft_strrejoin(fgrl, tmp, 1);//ft_strrejoin(tmp, fgrl, -1);
+		{
+		//	if (fgrl == NULL)
+		//	fgrl = ft_strnew(0);
+			tfl = ft_strrejoin(fgrl, tmp, 0);
+		//	free(fgrl);
+			fgrl = tfl;
+		}
 		else
 		{
 			if (tmp)
@@ -36,9 +44,12 @@ char			*ft_fgr_line(int fd)// malloc??
 			return (NULL);//free fgrl?
 		}
 	}
-	if (i != 4 )
-		if ( gr != 1)//i=gnl?
-		return (NULL);//this part needs to be fixed
+	if (i != 4)
+		if (gr != 1)//i=gnl?
+		{
+			free(tfl);
+			return (NULL);//this part needs to be fixed
+		}
 	//	printf(" fgrl=%s\n", fgrl);
 	return (fgrl);
 }
@@ -52,6 +63,8 @@ t_fgr			*fgr_new(char fgr_chr, char *line)/* creates new node in t_fgr. chr star
 	fgr->fgr_int = -1;
 	fgr->fgr_chr = fgr_chr;
 	fgr->fgr_line = ft_strdup(line);//do we need to check?
+	if (!line)
+		return (NULL);
 	fgr->next = NULL;
 	return (fgr);
 }
@@ -74,9 +87,9 @@ void	fgr_push_back(t_fgr **begin_list, char *data, char i)
 //	return (*begin_list);
 }
 
-t_fgr		*after_line(int fd)/* just check \n and \0 yuhoo and fill the fgr*/
+t_fgr		*after_line(int fd, char **line)/* just check \n and \0 yuhoo and fill the fgr*/
 {
-	char	*line;
+//	char	*tline;
 	int		i;
 	char	buf[2];
 	int		check;
@@ -84,37 +97,46 @@ t_fgr		*after_line(int fd)/* just check \n and \0 yuhoo and fill the fgr*/
 
 	fgr = NULL;
 	i = 'A' - 1;
-	while ((line = ft_fgr_line(fd)) && ++i < 'Z')
+//	tline = *line;
+	while ((*line = ft_fgr_line(fd)) && ++i < 'Z')
 	{
 		if (((check = read(fd, buf, 1)) == 1))
 			if (buf[0] != '\n')
 			{
+				free(*line);
 				return (NULL);// free
 			}
 		buf[1] = '\0';
 		if (check == 0)
 		{
-			fgr_push_back(&fgr, line, (char)i);
+			fgr_push_back(&fgr, *line, (char)i);
+		//	free(*line);
 			break ;//????????? last fgr
 		}
 		if (check)
-			fgr_push_back(&fgr, line, (char)i);
+			fgr_push_back(&fgr, *line, (char)i);
+		free(*line);
 	}
-	if (!line)	//if line = 0 free fgr lst
+	if (!(*line))	//if line = 0 free fgr lst
+	{
 		free_fgr(&fgr);
+		free(*line);
+	}
+//	if (*line)
+//		free(*line);
 	return (fgr);
 }
 
-int     check_n(int fd)
+int			check_n(int fd)
 {
-    char    buf[22];
-    int     ret;
+	char buf[22];
+	int ret;
 
-    while ((ret = read(fd, buf, 21)) == 21)
-    {
-        buf[21] = '\0';
-        if (buf[20] && buf[20] != '\n')
-            return(0);/* no \n */
+	while ((ret = read(fd, buf, 21)) == 21)
+	{
+		buf[21] = '\0';
+		if (buf[20] && buf[20] != '\n')
+			return(0);/* no \n */
     }
     if (ret == 20)
         return (1);
@@ -122,7 +144,7 @@ int     check_n(int fd)
         return(0);/* bad fgr */
 }
 
-int		fgrl_xtra_01(char *fgr_line)/* checks if this line is valid and change symbols to 1 or 0. if it's not val, just frees*/
+int			fgrl_xtra_01(char *fgr_line)/* checks if this line is valid and change symbols to 1 or 0. if it's not val, just frees*/
 {
 	int	i;
 	int	l;
@@ -148,7 +170,7 @@ int		fgrl_xtra_01(char *fgr_line)/* checks if this line is valid and change symb
 	return (1);
 }
 
-int		ft_fgr_int(char *fgrl)/* takes fgrl and turns it to int using bits logic after fgrl_val*/
+int			ft_fgr_int(char *fgrl)/* takes fgrl and turns it to int using bits logic after fgrl_val*/
 {
 	int	fgr_int;
 	int	frst;
@@ -176,11 +198,11 @@ int			int_check(t_fgr *fgr)
 	while (tmp)
 	{
 		f = tmp->fgr_int;
-		if ((f != 4369) && (f != 15) && (f != 547) && (f != 29) 
-		&& (f != 785) && (f != 23) && (f != 275) && (f != 71) && (f != 401) 
-		&& (f != 113) && (f != 51) && (f != 99) && (f != 153) && (f != 57) 
+		if ((f != 4369) && (f != 15) && (f != 547) && (f != 29)
+		&& (f != 785) && (f != 23) && (f != 275) && (f != 71) && (f != 401)
+		&& (f != 113) && (f != 51) && (f != 99) && (f != 153) && (f != 57)
 		&& (f != 305) && (f != 39) && (f != 281) && (f != 27) && (f != 561))
-			 return (0);
+			return (0);
 		tmp = tmp->next;
 	}
 	return (1);
@@ -190,14 +212,15 @@ t_fgr			*mega_fgr_val(int fd)
 {
 	t_fgr *ok_fgr;
 	t_fgr *tmp;
-//	char *line; //unused variabel
+	char *line; //unused variabel
 
 	ok_fgr = NULL;
-	if (!(ok_fgr = after_line(fd)))
+	if (!(ok_fgr = after_line(fd, &line)))
 	{
+	//	free(line);
 		return (NULL);
 	}
- 	tmp = ok_fgr;
+	tmp = ok_fgr;
 	while (tmp)
 	{
 		if (!(fgrl_xtra_01((tmp->fgr_line))))
@@ -208,22 +231,17 @@ t_fgr			*mega_fgr_val(int fd)
 		tmp = tmp->next;
 	}
 	tmp = ok_fgr;
-//	printf("i_ch=%d", int_check(tmp));	////////////
 	if (!(int_check(tmp)))
-	{
-		return (NULL);// free
+	{// free
+		free_fgr(&ok_fgr);//68-17--- 44/0
+		free(line);//44:0 --> 27:0
+		return (NULL);
 	}
-	t_fgr *ttmp;
-	ttmp = ok_fgr;
-	while (ttmp)
-	{
-	//	printf(" t_mp->fgr_int=%d ", ttmp->fgr_int);
-		ttmp = ttmp->next;
-	}
+	free(line);
 	return (ok_fgr);
 }
 
-void	free_fgr(t_fgr **fgr)
+void		free_fgr(t_fgr **fgr)
 {
 	t_fgr *tmp;
 	t_fgr *t;
