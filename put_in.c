@@ -17,7 +17,7 @@ void print_map(char **map)
 	int u;
 	u = -1;
 	while (map[++u])
-		printf("%s\n", map[u]);//printf("\nmap[u]%s|u=%d", map[u], u);
+		printf("%s\n", map[u]);
 }
 
 void		dot(char **map, t_fgr *fi)
@@ -112,20 +112,11 @@ int			rcrs(char ***minmap, t_fgr *fgrlst )//recursion /
 //		emp = emp->next;
 //	}
 //	emp->fgr_int = 0;
-//	if (putin() != 1)
-	{
-	//	printf("not placed%d", ++p);
-	//	mapc();increase map
-	}
 	y = -1;
 	x = -1;
-//	min_map[0] = "AAA.";
-//	min_map[0][0]='a'; 
-//	min_map[0][1]='a';min_map[0][2]='a';//min_map[0][3]='a';
 	while (min_map[++y])
 	{
 		t = -1;
-	//	printf("\n mimap[y][t]=%c y=%d t=%d ", min_map[y][t + 1], y, t);
 		while (min_map[y][++t])//if ( t < flg_s)
 		{
 			i = -1;
@@ -138,35 +129,16 @@ int			rcrs(char ***minmap, t_fgr *fgrlst )//recursion /
 				if (fgrlst->next)
 		//			printf("\n , fgrlst->next\n");
 //				print_map(min_map);
-		//		while (min_map[++i])
-		//			printf("\nmap[%d]%s|", i, min_map[i]);
 				if (fgrlst->next)
 				{
 					if (rcrs(&min_map, fgrlst->next))//goes outta here
 						return (1);
 					dot(min_map, fgrlst);
-//					printf(" DOT ");
 			//		rcrs(min_map, emp);//fgrlst);//?
-				}///place(min_map, fgrlst, y, t);
+				}
 				if (!(fgrlst->next))
 					return (2);//break;
-			//	else
-			//	{
-			//		return (2);
-			//	}
 			}
-	//		if (chpl)
-	//			if (fgrlst->next)
-				{
-	//				if (rcrs(min_map, fgrlst->next))//goes outta here
-	//					return (1);
-				}
-		//	else//if cannot be placed - clean -1 fgr - move -1 - try to place 0
-		//	{
-		//		/* code */
-		//	}
-			
-			
 		}
 	}
 //	print_map(*min_map);

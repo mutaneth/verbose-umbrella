@@ -76,6 +76,7 @@ void		build_f(t_fgr *r)
 		}
 	}
 	print_map(map);
+	map_free(map, flg);
 }
 
 int			main(int ac, char **av)// huge main
