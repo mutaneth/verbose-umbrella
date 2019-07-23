@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddratini <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/16 23:52:31 by ddratini          #+#    #+#             */
-/*   Updated: 2019/07/16 23:52:35 by ddratini         ###   ########.fr       */
+/*   Created: 2019/07/23 21:39:13 by ddratini          #+#    #+#             */
+/*   Updated: 2019/07/23 21:39:15 by ddratini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 	return ();
 }*/
 
-int		fgr_count(t_fgr *fgrlst)
+int			fgr_count(t_fgr *fgrlst)
 {
 	int		c;
 	t_fgr	*tmpl;
@@ -41,12 +41,12 @@ int		fgr_count(t_fgr *fgrlst)
 	return (c);
 }
 
-char	**mapc(int flg)//, int c_fg)/* creates the minimal start map*/
+char		**mapc(int flg)//, int c_fg)/* creates the minimal start map*/
 {
 	char	**map;
 	int		i;
 
-	i = -1;//free?
+	i = -1;
 	if (!(map = (char**)malloc((flg + 1) * sizeof(char *))))
 		return (NULL);//free
 	while (++i < flg)
@@ -57,18 +57,17 @@ char	**mapc(int flg)//, int c_fg)/* creates the minimal start map*/
 		map[i][flg] = '\0';
 	}
 	map[i] = 0;
-	i = -1;
 	return (map);
 }
 
- void	map_free(char **map, int fgc)//t_fgr *fgrlst)
+void		map_free(char **map, int fgc)//t_fgr *fgrlst)
 {
 	int i;
 
 	i = -1;
 	if (map)
 	{
-		while (++i < fgc )
+		while (++i < fgc)
 			free(map[i]);
 	//	free(*map);
 		free(map);
