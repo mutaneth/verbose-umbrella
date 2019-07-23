@@ -12,7 +12,7 @@
 
 #include "fillit.h"
 
-int 		read_max(int fd)
+int			read_max(int fd)
 {
 	int ret;
 	char buf[546];//? \0?
@@ -36,7 +36,7 @@ int			st(char **av/*int fd */)//return fd if ok st
 	fd = open(av[1], O_RDONLY);
 	if (read_max(fd) == 0)
 	{
-		close(fd);	/*added: check max read bytes */
+		close(fd);
 		exit (0);//need free?? exit??
 	}
 	close(fd);//mb thats why
@@ -45,7 +45,7 @@ int			st(char **av/*int fd */)//return fd if ok st
 	{
 		ft_putendl("error");
 		close(fd);
-		return (0);
+		exit(0);
 	}
 	fd = open(av[1], O_RDONLY);
 	return (fd);
@@ -54,28 +54,18 @@ int			st(char **av/*int fd */)//return fd if ok st
 void		build_f(t_fgr *r)
 {
 	int c;
-	int i;
 	char **map;
-	t_fgr *fgrlist;//???
+	t_fgr *fgrlist;//?
 	int flg;
 
 	fgrlist = r;
 //	if (flg < 2)
 		flg = 2;
 	c = fgr_count(fgrlist);
-	flg = sqrt(c * 4);//i guess s must be sqrt(all #'s * 4)// 2 figurs -> s = 5-6//c*4*4?
-/*	printf(" m_c=%d ",c);
-	printf(" m_s=%d ", s);*/	
-	i = -1;
+	flg = sqrt(c * 4);
 	map = mapc(flg);
-//	if (putin(map, r, flg) == 4)//flg
-//		place(map, r, 0,0);
-//	if (putin(map, r, flg) == 202)
-//		six(map, r, flg);
-//	while (map[++i])
-//		printf("\nmap[%d]%s|", i, map[i]);
 	if (map)
-	{	
+	{
 	//	if 
 		while (rcrs(&map, r) == 0)
 		{
@@ -99,12 +89,11 @@ int			main(int ac, char **av)// huge main
 		ft_putendl("usage: ./fillit tetro_file!");
 		return (1);
 	}
-	if (!(fd = st(av)))
-	{
+	if ((fd = st(av)) < 3)
 		return(1);
-	}
 	if ((r = mega_fgr_val(fd)) == NULL)/*st();*/ //r = mega_fgr_val(st(av));//r = mega_fgr_val(fd);
 	{
+		free_fgr(&r);
 		ft_putendl("error");//close (fd); ? //fre??ext
 		return (0);
 	}
@@ -119,8 +108,8 @@ int			main(int ac, char **av)// huge main
 		return(111111);*/
 		build_f(r);//here we build map, place figures, solving problems
 		//if build_f () ok ?
+		free_fgr(&r);
 		close(fd);//necssry?
 	}
 	return (0);
 }
-

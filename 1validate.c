@@ -84,6 +84,7 @@ void	fgr_push_back(t_fgr **begin_list, char *data, char i)
 		tmp = tmp->next;
 	}
 	tmp->next = fgr_new(i, data);
+	free(tmp);
 //	return (*begin_list);
 }
 
