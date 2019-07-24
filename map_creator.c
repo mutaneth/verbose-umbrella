@@ -3,33 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   map_creator.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddratini <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hfalmer <hfalmer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/23 21:39:13 by ddratini          #+#    #+#             */
-/*   Updated: 2019/07/23 21:39:15 by ddratini         ###   ########.fr       */
+/*   Created: 2019/07/16 23:52:31 by ddratini          #+#    #+#             */
+/*   Updated: 2019/07/24 19:48:34 by hfalmer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-/*int			ft_sqrt(double dcf)
-{
-	int i;
+/*
+** FREE WHEN NULL ty
+** mapc: creates the minimal start map
+*/
 
-	i = 0;
-	while (i * i < dcf)
-	{
-		++i;
-	}
-	return ();
-}*/
-
-int			fgr_count(t_fgr *fgrlst)
+int		fgr_count(t_fgr *fgrlst)
 {
 	int		c;
 	t_fgr	*tmpl;
 
-	if (!fgrlst)//?
+	if (!fgrlst)
 		return (0);
 	c = 1;
 	tmpl = fgrlst;
@@ -41,18 +34,18 @@ int			fgr_count(t_fgr *fgrlst)
 	return (c);
 }
 
-char		**mapc(int flg)//, int c_fg)/* creates the minimal start map*/
+char	**mapc(int flg)
 {
 	char	**map;
 	int		i;
 
 	i = -1;
 	if (!(map = (char**)malloc((flg + 1) * sizeof(char *))))
-		return (NULL);//free
+		return (NULL);
 	while (++i < flg)
 	{
 		if (!(map[i] = (char*)malloc(sizeof(char) * (flg + 1))))
-			return (NULL);//free
+			return (NULL);
 		ft_memset(map[i], '.', flg);
 		map[i][flg] = '\0';
 	}
@@ -60,7 +53,7 @@ char		**mapc(int flg)//, int c_fg)/* creates the minimal start map*/
 	return (map);
 }
 
-void		map_free(char **map, int fgc)//t_fgr *fgrlst)
+void	map_free(char **map, int fgc)
 {
 	int i;
 
@@ -69,24 +62,20 @@ void		map_free(char **map, int fgc)//t_fgr *fgrlst)
 	{
 		while (++i < fgc)
 			free(map[i]);
-	//	free(*map);
 		free(map);
 	}
 }
 
-/* char	**mapc(int s)
+int		ft_sqrt(int nb)
 {
-	char	**map[s][s];
-	int		i;
-	int		j;
+	int i;
 
-	i = -1;
-	while (++i < s)
-	{
-		j = -1;
-		while (++j < s)
-			map[i][j] = '.';
-	}
-	return (map);
+	if (nb == 1)
+		return (0);
+	i = 0;
+	while (i * i < nb)
+		i++;
+	if (i * i == nb)
+		return (i);
+	return (0);
 }
-*/

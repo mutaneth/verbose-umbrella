@@ -3,16 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddratini <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hfalmer <hfalmer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 16:33:24 by ddratini          #+#    #+#             */
-/*   Updated: 2019/07/16 23:07:39 by ddratini         ###   ########.fr       */
+/*   Updated: 2019/07/24 19:48:08 by hfalmer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-int			read_max(int fd)
+/*
+** st: return fd if ok st
+*/
+
+int		read_max(int fd)
 {
 	int		ret;
 	char	buf[546];
@@ -24,28 +28,12 @@ int			read_max(int fd)
 	}
 	else
 	{
+		close(fd);
 		return (1);
 	}
 }
 
-int			check_n(int fd)
-{
-	char	buf[22];
-	int		ret;
-
-	while ((ret = read(fd, buf, 21)) == 21)
-	{
-		buf[21] = '\0';
-		if (buf[20] && buf[20] != '\n')
-			return (0);/* no \n */
-	}
-	if (ret == 20)
-		return (1);
-	else
-		return (0);/* bad fgr */
-}
-
-int			st(char **av/*int fd */)//return fd if ok st
+int		st(char **av)
 {
 	int	fd;
 
@@ -61,22 +49,42 @@ int			st(char **av/*int fd */)//return fd if ok st
 	{
 		ft_putendl("error");
 		close(fd);
-		exit(0);
+		return (0);
 	}
 	fd = open(av[1], O_RDONLY);
 	return (fd);
 }
 
-void		build_f(t_fgr *r)
+int		check_n(int fd)
+{
+	char	buf[22];
+	int		ret;
+
+	while ((ret = read(fd, buf, 21)) == 21)
+	{
+		buf[21] = '\0';
+		if (buf[20] && buf[20] != '\n')
+			return (0);
+	}
+	if (ret == 20)
+		return (1);
+	else
+		return (0);
+}
+
+void	build_f(t_fgr *r)
 {
 	int		c;
+	int		i;
 	char	**map;
 	t_fgr	*fgrlist;
 	int		flg;
 
 	fgrlist = r;
+	flg = 2;
 	c = fgr_count(fgrlist);
-	flg = sqrt(c * 4);
+	flg = ft_sqrt(c * 4);
+	i = -1;
 	map = mapc(flg);
 	if (map)
 	{
@@ -91,7 +99,7 @@ void		build_f(t_fgr *r)
 	map_free(map, flg);
 }
 
-int			main(int ac, char **av)
+int		main(int ac, char **av)
 {
 	t_fgr	*r;
 	int		fd;
@@ -102,11 +110,10 @@ int			main(int ac, char **av)
 		ft_putendl("usage: ./fillit tetro_file!");
 		return (1);
 	}
-	if ((fd = st(av)) < 3)
+	if (!(fd = st(av)))
 		return (1);
 	if ((r = mega_fgr_val(fd)) == NULL)
 	{
-		free_fgr(&r);
 		ft_putendl("error");
 		return (0);
 	}
@@ -114,7 +121,7 @@ int			main(int ac, char **av)
 	{
 		tmp = r;
 		build_f(r);
-		free_fgr(&r);
+		free_fgr(r);
 		close(fd);
 	}
 	return (0);
