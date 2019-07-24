@@ -1,0 +1,2 @@
+echo "gcc -g -Wall main.c 1validate.c map_creator.c put_in.c  get_next_line.c lib_ft/libft/libft.a ../fillit/libft/ft_cleanmem.c -o fillit"
+      gcc -g -Wall main.c 1validate.c map_creator.c put_in.c  get_next_line.c lib_ft/libft/libft.a ../fillit/libft/ft_cleanmem.c -o fillit

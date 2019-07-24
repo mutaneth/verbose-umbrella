@@ -1,0 +1,2 @@
+echo "gcc -g -Wall main.c 1validate.c map_creator.c put_in_last.c ../fillit/libft/libft.a -o last_ "
+gcc -g -Wall main.c 1validate.c map_creator.c put_in_last.c ../fillit/libft/libft.a -o last_ 

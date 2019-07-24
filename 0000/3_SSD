@@ -1,0 +1,10 @@
+map[u]A...|u=0
+map[u]A.B.|u=1
+map[u]AAB.|u=2
+map[u]..BB|u=3not placed3 -1000100011000000-
+ , fgrlst->next
+
+ map[u].A..|u=0
+ map[u].A..|u=1
+ map[u].AA.|u=2
+ map[u]....|u=3not placed4 -1000100011000000-
