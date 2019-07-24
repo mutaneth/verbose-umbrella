@@ -6,7 +6,7 @@
 /*   By: hfalmer <hfalmer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 22:42:11 by hfalmer           #+#    #+#             */
-/*   Updated: 2019/07/16 23:13:46 by ddratini         ###   ########.fr       */
+/*   Updated: 2019/07/24 19:38:09 by ddratini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int			rcrs(char ***minmap, t_fgr *fgrlst)//recursion /
 		{
 			i = -1;
 			chpl = 0;
-			if (min_map[y][t] == '.')
+			if (min_map[y][xt] == '.')
 				if (putin(min_map, fgrlst, y, xt) == 4)//check putin in this coordinate!
 				{
 					chpl = place(min_map, fgrlst, y, xt);//t for x
@@ -194,7 +194,7 @@ int			six(char **map, t_fgr *fgr, int y, int x)//correct placement for non corn 
 					if ((fgr->fgr_int >> k) & 1)//((fgr->fgr_int >> k) & 1)//(fgr->fgr_int & (1 << k))/* ((fgr->fgr_int >> k) & 1)*/
 						if ((x + (k % 4) - 1) >= 0) //if (( y + k / 4) < s)
 						//	if ((x + ((k % 4) )-1) < s)//if ((x + k % 4 ) < s)
-							if ( map[y + k /4])	//segs w/out it for some reason ;/
+							if (y + k /4 < size)	//segs w/out it for some reason ;/
 								if ((y + k / 4) < size && (x + k % 4 -1) < size)
 									if ( map[y + k/4 ][x + k%4  -1] == '.')//if ( map[y + k/4][x + k%4] == '.')//check evry inti,map's boundaries/'.' in that place
 									{

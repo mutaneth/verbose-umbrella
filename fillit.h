@@ -40,29 +40,30 @@ typedef struct		s_fgr
 	struct s_fgr	*next;
 }					t_fgr;
 
-# define FGR1 0000 0000
+# define FGR1 0000 0000 29 0 401 281 57 27 153
 
-int					six(char **map, t_fgr *fgr, int s, int y, int x);//correct placement for non corn fgrs
+int					six(char **map, t_fgr *fgr, int y, int x);//correct placement for non corn fgrs
 unsigned int		rev_bit(unsigned char octet);
 char				*ft_fgr_line(int fd);// malloc??
 t_fgr				*fgr_new(char fgr_chr, char *line);/* creates new node in t_fgr. chr starts with 65 and then iterates to 90*/
 t_fgr				*fgr_lst(char i, char *line, t_fgr *fgr); /*     */
-t_fgr				*after_line(int fd);//, char *LINE);/* \n between figures && no symbols after \0 EOF && EOF after figures */
+t_fgr				*after_line(int fd, char **line);//, char *LINE);/* \n between figures && no symbols after \0 EOF && EOF after figures */
 int					fgrl_xtra_01(char *fgr_line);/* checks if this line is valid and change symbols to 1 or 0. if it's not val, just frees*/
 int					ft_fgr_int(char *fgrl);/* takes fgrl and turns it to int using bits logic after fgrl_val*/
 int					int_check(t_fgr *fgr);
 t_fgr				*mega_fgr_val(int fd);
-int					putin(char **map, t_fgr *fgr, int s, int y, int x);/* puts 1 fgr in map */
+int					putin(char **map, t_fgr *fgr, int y, int x);/* puts 1 fgr in map */
 int					fgr_count(t_fgr *fgrlst);/* just count fgrs*/
 char				**mapc(int flg);/* creates the minimal start map*/
-void				map_free(char **map, t_fgr *fgrlst);// huita
+void				map_free(char **map, int fgc);//t_fgr *fgrlst);// huita
 char				**map_increaser(t_fgr *fgrlst, char **map, int flg);// flg = iterrator
 int     			check_n(int fd);
 int 				place(char **map, t_fgr *fgr, int y, int x);//int s);//(int f);
 int					four_check(char **map, t_fgr *fgr, int x, int y, int s);
 int					check_input_count(char *blc); //check for wrong chars and extra #
-int					rcrs(char **min_map, t_fgr *fgrlst, int flg_s);//recursion /
+int					rcrs(char ***min_map, t_fgr *fgrlst);//recursion /
 void				free_fgr(t_fgr **fgr);
+void				print_map(char **map);
 
 //forbidden funcs in header>?
 
