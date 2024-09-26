@@ -6,47 +6,33 @@
 /*   By: hfalmer <hfalmer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 19:49:57 by hfalmer           #+#    #+#             */
-/*   Updated: 2019/06/25 18:16:28 by hfalmer          ###   ########.fr       */
+/*   Updated: 2019/07/16 23:12:30 by ddratini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
-/*  int			check_input_count(char *blc) //check for wrong chars and extra #
+//	GNL returns 0 after 1 f read *****************
+char			*ft_fgr_line(int fd)
 {
-	int i;
-	int sharp;
+	int		i;
+	char	*tmp;
+	char	*fgrl;
+	int		gr;
+	char	*tfl;
 
 	i = -1;
-//	while (str[++i] && (str[++i] == '\n' || str[++i] == '#' || str[++i] == '.'));
-	while (blcstr[++i])
-	{
-		if (blcstr[i] != '\n' && blcstr[i] != '#' && blcstr[i] != '.')
-			return (0);
-		sharp = 0;
-		if (blcstr[i] == '#' && ++sharp > 4)
-			return (0);
-	}
-	return (1);
-}
-*/
-
-char			*ft_fgr_line(int fd)// malloc??
-{
-	int i;
-	char *tmp;
-	char *fgrl;
-
-	i = -1;
-	fgrl = "";
-	while(++i < 4  && get_next_line(fd, &tmp) == 1)
+	fgrl = ft_strnew(0);//"";
+	while (++i < 4 && (gr = get_next_line(fd, &tmp)) == 1)
 	{
 		if (!tmp)
 		{
-			printf("kek");
 			return (NULL);
 		}
 		if (ft_strlen(tmp) == 4)
-			fgrl = ft_strrejoin(fgrl, tmp, 1);//ft_strrejoin(tmp, fgrl, -1);
+		{
+			tfl = ft_strrejoin(fgrl, tmp, 0);
+			fgrl = tfl;
+		}
 		else
 		{
 			if (tmp)
@@ -54,9 +40,13 @@ char			*ft_fgr_line(int fd)// malloc??
 			return (NULL);//free fgrl?
 		}
 	}
-	if (i != 4 && get_next_line(fd, &tmp) != 1)
-		return (NULL);
-		printf("fgrl=%s", fgrl);
+	if (i != 4)
+		if (gr != 1)//i=gnl?
+		{
+			free(tfl);
+			return (NULL);//this part needs to be fixed
+		}
+	//	printf(" fgrl=%s\n", fgrl);
 	return (fgrl);
 }
 
@@ -64,140 +54,87 @@ t_fgr			*fgr_new(char fgr_chr, char *line)/* creates new node in t_fgr. chr star
 {
 	t_fgr	*fgr;
 
-	fgr = (t_fgr*)malloc(sizeof(t_fgr));
+	if (!(fgr = (t_fgr*)malloc(sizeof(t_fgr))))
+		return (NULL);
 	fgr->fgr_int = -1;
 	fgr->fgr_chr = fgr_chr;
-	fgr->fgr_line = ft_strdup(line);
+	fgr->fgr_line = ft_strdup(line);//do we need to check?
+	if (!line)
+		return (NULL);
 	fgr->next = NULL;
 	return (fgr);
 }
 
-/* t_fgr			*fgr_lst(char i, char *line, t_fgr *fgr)
-{
-	t_fgr *tmp;
-
-	if (!fgr)
-		fgr_new(i, line);
-	else
-	{
-		tmp = fgr;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = fgr_new(i, line);
-	}
-	return (fgr);
-}*/
-
-/*t_fgr			*after_line(int fd)/ * \n between figures && no symbols after \0 EOF && EOF after figures * /
-{
-	char	i;
-	char	buf[2];//SIZE NEEDED!
-	t_fgr	*fgr;
-	t_fgr	*tmpf;
-	char *line;//line where
-
-//	tmpf = fgr;
-	i = 'A' - 1;
-	printf("WHYSEGA?"); //SEGAA>>>????
-	while ((line = ft_fgr_line(fd)) && ++i < 'Y') //if
-	{
-		if (!fgr)
-			fgr = fgr_new(i, line);
-		else
-		{
-			tmpf = fgr;
-			tmpf = fgr_lst(i, line, fgr);
-		}
-		read(fd, buf, 1);
-//		buf[1] = '\0';
-		printf("buf=%s", buf);
-//		printf("buf[0] =%c", buf[0]);
-		if (buf[0] == '\0')
-			break ;
-		if (buf[0] != '\n')
-			return (NULL);//free 
-	}
-	printf("buf[0] =%c\n", buf[0]);
-	if ( / * buf[0] && * /buf[0] == '\0' && read(fd, buf, 1) == 1)
-		return (0);
-/ *	else
-		return (NULL); // if null ? else null?
-	if (ft_fgr_line(fd))
-		return (NULL); * /
-	return (fgr);
-}*/
-
-void	fgr_push_back(t_fgr **begin_list, char *data, char i)
+void			fgr_push_back(t_fgr **begin_list, char *data, char i)
 {
 	t_fgr	*tmp;
 
-//	printf("push_back1: %d\n", (int)i);
 	if (!(*begin_list))
 	{
 		*begin_list = fgr_new(i, data);
 		return ;
 	}
 	tmp = *begin_list;
-//	printf("push_back2: %d\n", (int)i);
 	while (tmp->next)
+	{
 		tmp = tmp->next;
-//	printf("push_back3: %d\n", (int)i);
+	}
 	tmp->next = fgr_new(i, data);
-//	printf("push_back4: %d\n", (int)i);
-//	return (*begin_list);
+	//free(tmp);//?? //	return (*begin_list);
 }
 
-t_fgr		*after_line(int fd)/* just check \n and \0 yuhoo and fill the fgr*/
+t_fgr			*after_line(int fd, char **line)
+/* just check \n and \0 yuhoo and fill the fgr*/
 {
-	char	*line;
+//	char	*tline;
 	int		i;
-	char	buf[2];//buf[] = "-";//buf[2];
+	char	buf[2];
 	int		check;
 	t_fgr	*fgr;
 
 	fgr = NULL;
 	i = 'A' - 1;
-	while ((line = ft_fgr_line(fd)) && ++i < 'Z')
+//	tline = *line;
+	while ((*line = ft_fgr_line(fd)) && ++i < 'Z')
 	{
-		if (((check = read(fd, buf, 1)) == 1) && buf[0] != '\n')
-			return (NULL);// free
-		if (!check)
+		if (((check = read(fd, buf, 1)) == 1))
+			if (buf[0] != '\n')
+			{
+				free(*line);
+				return (NULL);// free
+			}
+		buf[1] = '\0';
+		if (check == 0)
 		{
-			fgr_push_back(&fgr, line, (char)i);
-			break;
+			fgr_push_back(&fgr, *line, (char)i);
+		//	free(*line);
+			break ;//????????? last fgr
 		}
-		printf("i=%c\n", (char)i);
-		fgr_push_back(&fgr, line, (char)i);
+		if (check)
+			fgr_push_back(&fgr, *line, (char)i);
+		free(*line);
 	}
+	if (!(*line))	//if line = 0 free fgr lst
+	{
+		free_fgr(&fgr);
+		free(*line);
+	}
+//	if (*line)
+//		free(*line);
 	return (fgr);
 }
 
-int     check_n(int fd)
-{
-    char    buf[22];
-    int     ret;
-
-    while ((ret = read(fd, buf, 21)) == 21)
-    {
-        buf[21] = '\0';
-        if (buf[20] && buf[20] != '\n')
-            return(0);/* no \n */
-    }
-    if (ret == 20)
-        return (1);
-    else
-        return(0);/* bad fgr */
-}
-
-int		fgrl_xtra_01(char *fgr_line)/* checks if this line is valid and change symbols to 1 or 0. if it's not val, just frees*/
+int				fgrl_xtra_01(char *fgr_line)/* checks if this line is valid and change symbols to 1 or 0. if it's not val, just frees*/
 {
 	int	i;
 	int	l;
+	int b;
 
 	l = ft_strlen(fgr_line);
 	if (l != 16)
 		return (0);
 	i = -1;
+	b = 0;
 	while (++i < l)
 	{
 		if (fgr_line[i] != '.' && fgr_line[i] != '#')
@@ -206,12 +143,14 @@ int		fgrl_xtra_01(char *fgr_line)/* checks if this line is valid and change symb
 		if (fgr_line[i] == '.')
 			fgr_line[i] = '0';
 		else
+		{
 			fgr_line[i] = '1';
+		}
 	}
 	return (1);
 }
 
-int		ft_fgr_int(char *fgrl)/* takes fgrl and turns it to int using bits logic after fgrl_val*/
+int				ft_fgr_int(char *fgrl)/* takes fgrl and turns it to int using bits logic after fgrl_val*/
 {
 	int	fgr_int;
 	int	frst;
@@ -226,26 +165,24 @@ int		ft_fgr_int(char *fgrl)/* takes fgrl and turns it to int using bits logic af
 			frst = i;
 		if (frst != -1)
 			fgr_int |= (fgrl[i] - '0') << (i - frst);
-	//	ft_print_bits(fgr_int);
-		printf("f_i=%d ", fgr_int);
 	}
 	return (fgr_int);
 }
 
-int			int_check(t_fgr *fgr)
+int				int_check(t_fgr *fgr)
 {
 	t_fgr	*tmp;
 	int		f;
 
 	tmp = fgr;
-	while (tmp)// 1 elem?
+	while (tmp)
 	{
 		f = tmp->fgr_int;
-		if ((f != 4369) && (f != 15) && (f != 547) && (f != 29) 
-		&& (f != 785) && (f != 23) && (f != 275) && (f != 71) && (f != 401) 
-		&& (f != 113) && (f != 51) && (f != 99) && (f != 153) && (f != 57) 
+		if ((f != 4369) && (f != 15) && (f != 547) && (f != 29)
+		&& (f != 785) && (f != 23) && (f != 275) && (f != 71) && (f != 401)
+		&& (f != 113) && (f != 51) && (f != 99) && (f != 153) && (f != 57)
 		&& (f != 305) && (f != 39) && (f != 281) && (f != 27) && (f != 561))
-			 return (0);
+			return (0);
 		tmp = tmp->next;
 	}
 	return (1);
@@ -255,35 +192,36 @@ t_fgr			*mega_fgr_val(int fd)
 {
 	t_fgr *ok_fgr;
 	t_fgr *tmp;
-//	char *line; //unused variabel
+	char *line; //unused variabel
 
 	ok_fgr = NULL;
-	if (!(ok_fgr = after_line(fd)))
+	if (!(ok_fgr = after_line(fd, &line)))
 	{
-		printf("bad");
+	//	free(line);
 		return (NULL);
 	}
- 	tmp = ok_fgr;
+	tmp = ok_fgr;
 	while (tmp)
 	{
 		if (!(fgrl_xtra_01((tmp->fgr_line))))
 			return (NULL);// free
-		printf("xtra:%s\n", tmp->fgr_line);
+//		printf("xtra:%s\n", tmp->fgr_line);
 		tmp->fgr_int = ft_fgr_int(tmp->fgr_line);
-		printf("int:%d ", tmp->fgr_int);
+//		printf("int:%d ", tmp->fgr_int);
 		tmp = tmp->next;
 	}
 	tmp = ok_fgr;
-//	printf("i_ch=%d", int_check(tmp));	////////////
 	if (!(int_check(tmp)))
-	{
-		printf("rr-intcheck\n");
-		return (NULL);// free
+	{// free
+		free_fgr(&ok_fgr);//68-17--- 44/0
+		free(line);//44:0 --> 27:0
+		return (NULL);
 	}
+	free(line);
 	return (ok_fgr);
 }
 
-void	free_fgr(t_fgr **fgr)
+void		free_fgr(t_fgr **fgr)
 {
 	t_fgr *tmp;
 	t_fgr *t;
@@ -301,7 +239,6 @@ void	free_fgr(t_fgr **fgr)
 			free(t);
 		}
 		free(tmp);
-		free(*fgr);
-		free(fgr);
+//		free(fgr);
 	}
 }

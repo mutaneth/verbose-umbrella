@@ -1,0 +1,24 @@
+oa-a2% sh la_putin_scr    
+gcc -g -Wall main.c 1validate.c map_creator.c put_in.c reverb.c ../fillit/libft/libft.a -o l_put 
+oa-a2% ./l_put 0_g_rdq_fgr
+error
+fd=3 op=6fgrl=..#.###.........xtra:0010111000000000
+f_i=0 f_i=0 f_i=1 f_i=1 f_i=5 f_i=13 f_i=29 f_i=29 f_i=29 f_i=29 f_i=29 f_i=29 f_i=29 f_i=29 f_i=29 f_i=29 int:29 mgfgrvl-ok  m_c=1  m_s=2  C=1 Ssqrt=5
+01110101 pur_s=5 knumofbit=2 ik_=1 bitsval=4  newln--- newln--- iif!=4! 
+map[0]aaa..|
+map[1]A.A..|
+map[2]AAA..|
+map[3].....|
+map[4].....|
+oa-a2% sh la_putin_scr    
+gcc -g -Wall main.c 1validate.c map_creator.c put_in.c reverb.c ../fillit/libft/libft.a -o l_put 
+oa-a2% ./l_put 0_g_rdq_fgr
+error
+fd=3 op=6fgrl=..#.###.........xtra:0010111000000000
+f_i=0 f_i=0 f_i=1 f_i=1 f_i=5 f_i=13 f_i=29 f_i=29 f_i=29 f_i=29 f_i=29 f_i=29 f_i=29 f_i=29 f_i=29 f_i=29 int:29 mgfgrvl-ok  m_c=1  m_s=2  C=1 Ssqrt=5
+01110101 pur_s=5 knumofbit=2 ik_=1 bitsval=4  newln--- newln--- iif!=4! 
+map[0]aaa..|
+map[1]..A..|
+map[2]AAA..|
+map[3].....|
+map[4].....|

@@ -1,0 +1,2 @@
+echo gcc -g main.c map_creator.c 1validate.c put_in_256.c ../fillit/libft/libft.a -o 625fffffffff
+ gcc -g main.c map_creator.c 1validate.c put_in_256.c ../fillit/libft/libft.a -o 625fffffffff
